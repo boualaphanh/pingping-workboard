@@ -162,6 +162,14 @@ button.node{cursor:pointer;text-align:left}button.node:hover{filter:brightness(.
 .col2>.node:first-child{position:relative}
 .col2>.node:first-child:before{content:"";position:absolute;left:-18px;top:50%;width:18px;height:2px;background:var(--line2)}
 .col2 .leafs{display:flex;flex-direction:column;gap:5px;padding-left:18px;border-left:2px solid var(--line2);margin-left:14px}
+/* feasibility */
+.kk{display:inline-block;min-width:26px;text-align:center;font-family:var(--ff-d);font-weight:700;font-size:11px;padding:2px 6px;border-radius:5px;border:1px solid transparent}
+.kk.S{background:var(--ok-bg);color:var(--ok)}.kk.P{background:var(--adapt-bg);color:var(--adapt)}.kk.H{background:var(--sand-soft);color:var(--sand);border-color:var(--sand)}.kk.OS{background:var(--cut-bg);color:var(--cut)}
+.fixed{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:14px}
+.fixed .fx{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:12px;display:flex;flex-direction:column;gap:2px}
+.fixed .fx b{font-family:var(--ff-d);font-size:13px}.fixed .fx i{font-style:normal;color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}.fixed .fx small{color:var(--muted)}
+.fixed .fx.sum{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.fixed .fx.sum b,.fixed .fx.sum i,.fixed .fx.sum small{color:var(--accent-ink)}
+table.rt td.k{width:40px}
 /* research + painpoint tables */
 table.rt{min-width:960px}
 table.rt td{vertical-align:top;font-size:13px;line-height:1.45}
@@ -216,6 +224,12 @@ table.rt tr.done td{background:color-mix(in srgb,var(--accent-soft) 40%,transpar
         <button class="tab" role="tab" data-v="mind">Sitemap</button>
         <button class="tab" role="tab" data-v="research">Survey & Research</button>
         <button class="tab" role="tab" data-v="pain">Painpoints</button>
+        <button class="tab" role="tab" data-v="feas">Feasibility</button>
+      </div>
+      <div class="view" id="v-feas" hidden>
+        <p class="hint"><span class="kk S">S</span> ซอฟต์แวร์ล้วน ทำได้เลย &nbsp; <span class="kk P">P</span> ต้องจ่าย/สมัครบริการ &nbsp; <span class="kk H">H</span> ต้องมี hardware/IoT &nbsp; <span class="kk OS">OS</span> ระบบปฏิบัติการจำกัด (ส่วนใหญ่ iOS) &nbsp; L = ต้องผ่านกฎหมาย/consent · รายละเอียดใน Feasibility v0.6</p>
+        <div class="fixed" id="fixed"></div>
+        <div class="tblwrap"><table id="feas" class="rt"></table></div>
       </div>
       <div class="view" id="v-mind" hidden>
         <p class="hint"><span class="sw mine"></span> จาก mindmap + Ideas.md ของคุณ &nbsp; <span class="sw addon"></span> ★ Claude เสนอเพิ่ม &nbsp;· หน้าจอจาง = ตัดใน Gen ที่เลือก · คลิกหน้าจอเพื่อดู feature</p>

@@ -106,11 +106,20 @@ function renderPain(){const t=$('#pain');t.innerHTML='<thead><tr><th>ใช้</
     gp.rows.forEach(p=>{const on=!!S.pain[p.id];const tr=el('tr',on?'done':'');tr.innerHTML=`<td><input type="checkbox" id="pain-${p.id}" ${on?'checked':''} aria-label="ใช้ ${p.id}"></td><td class="n">${p.id}</td><td class="t"><b>${p.t}</b></td><td class="who">${p.from}</td><td class="res">${p.fix}</td><td class="f">${p.f.split(' ').map(x=>`<span>${x}</span>`).join('')}</td><td class="ref">${p.ref}</td>`;
       tr.querySelector('input').onchange=e=>{if(e.target.checked)S.pain[p.id]=1;else delete S.pain[p.id];save();renderPain();};tb.appendChild(tr);});});t.appendChild(tb);}
 
+/* feasibility */
+function renderFeas(){const fx=$('#fixed');fx.innerHTML='';fx.appendChild(el('div','fx sum','<b>ขั้นต่ำเพื่อเริ่ม MVP</b><i>~124 USD ครั้งเดียว + 30–50 USD/เดือน</i><small>+ SMS ตามใช้จริง · watch sample แยก</small>'));
+  window.PP.FIXED.forEach(f=>fx.appendChild(el('div','fx',`<b>${f.id} ${f.t}</b><i>${f.c}</i><small>${f.w}</small>`)));
+  const t=$('#feas');t.innerHTML='<thead><tr><th>#</th><th>Feature</th><th>ประเภท</th><th>Android</th><th>iOS</th><th>ต้องมี</th><th>ต้นทุน</th><th>คำตัดสิน</th></tr></thead>';const tb=el('tbody');const FE=window.PP.FEAS;
+  Object.keys(GROUPS).forEach(gk=>{const rows=F.filter(f=>f.g===gk&&FE[f.id]);if(!rows.length)return;const c={S:0,P:0,H:0,OS:0};rows.forEach(f=>c[FE[f.id].k]++);
+    const gr=el('tr','grp');gr.innerHTML=`<td colspan="8">${gk==='X'?'':gk+'. '}${GROUPS[gk]}<span>S ${c.S} · P ${c.P} · H ${c.H} · OS ${c.OS}</span></td>`;tb.appendChild(gr);
+    rows.forEach(f=>{const e=FE[f.id];const st=stOf(f,S.gen);const tr=el('tr',st==='N'?'':'' );tr.innerHTML=`<td class="n">${f.id}</td><td class="t"><b>${f.name}</b><small>phase ${phOf(f)} · ใน ${S.gen}: ${LBL[st]}</small></td><td class="k"><span class="kk ${e.k}">${e.k}</span></td><td class="who">${e.and}</td><td class="who">${e.ios}</td><td class="res">${e.need}</td><td class="res">${e.cost}</td><td class="ref"><b>${e.v}</b></td>`;tb.appendChild(tr);});});
+  t.appendChild(tb);}
+
 /* actions */
 $('#btnReset').onclick=()=>{if(!confirm('ล้างการแก้ไขทั้งหมด กลับเป็นค่าจากเอกสารวิเคราะห์?'))return;const g=S.gen;S=blank();S.gen=g;save();renderAll();toast('รีเซ็ตแล้ว');};
 $('#btnCopy').onclick=async()=>{const out={gen:S.gen,overrides:S.ov,phases:S.ph,gapsAccepted:Object.keys(S.gaps),decided:Object.keys(S.dec),painpointsSelected:Object.keys(S.pain||{}),matrix:F.map(f=>({id:f.id,name:f.name,phase:phOf(f),status:Object.fromEntries(GENS.map(g=>[g.id,stOf(f,g.id)]))}))};
   const txt=JSON.stringify(out,null,2);try{await navigator.clipboard.writeText(txt);toast('คัดลอกแล้ว');}catch(e){prompt('คัดลอกข้อความนี้',txt);}};
 
-function renderAll(){renderGens();renderRail();renderTabs();renderMatrix();renderPreview();renderBoard();renderGaps();renderMind();renderResearch();renderPain();}
+function renderAll(){renderGens();renderRail();renderTabs();renderMatrix();renderPreview();renderBoard();renderGaps();renderMind();renderResearch();renderPain();renderFeas();}
 renderAll();
 })();

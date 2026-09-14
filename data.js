@@ -249,3 +249,46 @@ window.PP.PAINTBL=[
   {id:'P19',t:'เด็กยอมรับได้ถ้าต่อรอง มีเหตุผล ตกลงกัน',from:'เยาวชน 13–16 เบลเยียม 147 คน',fix:'Consent ตอน pair เลือกได้ต่อรายการ · Teen Contract ลงชื่อสองฝ่าย',ref:'#12 #3',f:'AD10 E7'},
   {id:'P20',t:'พ่อแม่เองรู้สึกผิดที่สอดแนม',from:'พ่อแม่ 112 คน ทัศนคติก้ำกึ่ง',fix:'ภาษาในแอพใช้ "ดูแล" ไม่ใช่ "ควบคุม" · แสดงให้พ่อแม่เห็นว่าลูกเห็นอะไร',ref:'#10',f:'E7 C1'}]}
 ];
+// ---- Feasibility (v0.6) ----
+// k: S=software only, P=paid service, H=hardware/IoT, OS=platform-restricted, L=legal gate
+window.PP.FIXED=[
+ {id:'F1',t:'Apple Developer Program',c:'99 USD/ปี',w:'ก่อน TestFlight'},{id:'F2',t:'Google Play Console',c:'25 USD ครั้งเดียว',w:'ก่อน internal testing'},
+ {id:'F3',t:'Server + Postgres (Singapore)',c:'20–40 USD/เดือน',w:'Sprint 1'},{id:'F4',t:'Object storage S3',c:'~5 USD/เดือน',w:'Sprint 1'},
+ {id:'F5',t:'SMS OTP gateway',c:'0.03–0.06 USD/ข้อความ',w:'ถ้าล็อกอินเบอร์โทร — เริ่ม Google/Apple sign-in ฟรีได้'},{id:'F6',t:'Push OneSignal + Firebase project',c:'ฟรี ≤ 10k subs',w:'Sprint 1'},
+ {id:'F7',t:'Map tiles',c:'Google ฟรี 200 USD/เดือน · OSM ฟรี',w:'Sprint 1'},{id:'F8',t:'Sentry',c:'ฟรี tier',w:'Sprint 1'},{id:'F9',t:'Shorebird code push',c:'ฟรี tier',w:'ก่อน release'},
+ {id:'F11',t:'ที่ปรึกษากฎหมาย PDPA / ดักฟัง',c:'ตามตกลง',w:'ก่อน v1.1 (A6 A10)'},{id:'F12',t:'Watch sample 2–3 เรือน + SIM',c:'30–60 USD/เรือน + SIM',w:'ก่อนตัดสินใจ B2'}
+];
+window.PP.FEAS={
+ A1:{k:'S',and:'S foreground service + background location',ios:'S/OS ขอ Always, ใช้ significant-change + region',need:'Kids app บนเครื่องลูก',cost:'map tiles F7',v:'ทำได้'},
+ A2:{k:'S',and:'S Geofencing API',ios:'S จำกัด 20 โซน/แอพ',need:'—',cost:'—',v:'ทำได้'},
+ A3:{k:'S',and:'S คำนวณ server',ios:'S',need:'A1',cost:'—',v:'1.1'},
+ A4:{k:'S',and:'S push สูง + foreground service',ios:'S/OS เสียงทะลุ silent ต้อง Critical Alerts entitlement',need:'ปุ่มกายภาพ = H watch',cost:'SMS fallback F5',v:'ทำได้'},
+ A5:{k:'OS',and:'S เล่นเสียงจาก push แม้เงียบ',ios:'OS ไม่ได้ถ้าไม่มี Critical Alerts',need:'—',cost:'—',v:'Android เต็ม / iOS บางส่วน'},
+ A6:{k:'OS',and:'S/L อัดจาก foreground service, โชว์ไอคอนไมค์',ios:'OS ทำไม่ได้ เริ่มอัดจาก background ไม่ได้',need:'—',cost:'L ที่ปรึกษากฎหมาย F11',v:'1.1 Android เท่านั้น'},
+ A7:{k:'OS',and:'S UsageStatsManager',ios:'OS Family Controls entitlement, ข้อมูล opaque ส่ง server ไม่ได้',need:'—',cost:'—',v:'Android 1.1 / iOS จำกัด'},
+ A8:{k:'OS',and:'S Accessibility/Device admin, Play policy เข้ม',ios:'OS ManagedSettings ต้อง entitlement',need:'—',cost:'—',v:'Android 1.1'},
+ A9:{k:'P',and:'S+P VpnService + DNS filter',ios:'OS ผ่าน Screen Time/MDM เท่านั้น',need:'—',cost:'P DNS filter 2–5 USD/เดือน/ครอบครัว',v:'v2'},
+ A10:{k:'OS',and:'S+P NotificationListener + LLM',ios:'OS ทำไม่ได้ อ่าน notification แอพอื่นไม่ได้',need:'—',cost:'P LLM ตามใช้ · L',v:'v2 Android เท่านั้น'},
+ A11:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},
+ B1:{k:'S',and:'S',ios:'S',need:'application id ที่สอง',cost:'เวลาพัฒนา ×1.5',v:'ทำได้'},
+ B2:{k:'H',and:'H+P',ios:'H+P',need:'OEM เปิด API/MQTT + SIM 4G',cost:'30–60 USD/เรือน + SIM 3–5 USD/เดือน',v:'เลื่อน S3 / 1.1 ซื้อ sample ก่อน'},
+ B3:{k:'H',and:'H BLE band',ios:'H',need:'band + มือถือลูก',cost:'15–30 USD/เส้น',v:'v2'},
+ B4:{k:'H',and:'H',ios:'H',need:'ไม่มี OEM เด็ก',cost:'—',v:'ตัด'},
+ B5:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},
+ B6:{k:'S',and:'S',ios:'S',need:'watch = H',cost:'—',v:'ทำได้'},
+ C1:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},C2:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'1.1'},
+ C3:{k:'S',and:'S',ios:'S',need:'ข้อมูล ≥ 4 สัปดาห์',cost:'—',v:'v2'},C4:{k:'S',and:'S',ios:'S',need:'ผู้ใช้ ≥ 50/กลุ่ม หรือ WHO',cost:'—',v:'v2'},C5:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'v2'},
+ C6:{k:'S',and:'S',ios:'S',need:'push F6',cost:'ฟรี',v:'ทำได้'},
+ D1:{k:'S',and:'S ลูกกรอก',ios:'S',need:'e-wallet = P+L partner ธนาคาร + KYC เด็ก',cost:'—',v:'1.1 · e-wallet v2+'},
+ D2:{k:'S',and:'S จำลอง',ios:'S',need:'ลงทุนจริง = P+L ใบอนุญาต ไม่ทำ',cost:'—',v:'v2'},
+ D3:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'1.1'},D4:{k:'S',and:'S',ios:'S',need:'storage รูป F4',cost:'—',v:'ทำได้'},D5:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'1.1'},D6:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'v2'},
+ E1:{k:'P',and:'P SMS OTP',ios:'P',need:'SMS gateway F5 หรือ Google/Apple sign-in ฟรี',cost:'ต่อข้อความ',v:'ทำได้ เริ่มฟรีก่อน'},
+ E2:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},E3:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},E4:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},
+ E5:{k:'S',and:'S',ios:'S',need:'push F6',cost:'ฟรี',v:'ทำได้'},
+ E6:{k:'P',and:'P',ios:'P',need:'บัญชี dev F1 F2',cost:'Apple/Google หัก 15–30 %',v:'v2'},
+ E7:{k:'S',and:'S+L',ios:'S+L',need:'F11',cost:'—',v:'ทำได้ พื้นฐาน'},
+ AD1:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},AD2:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'1.1'},AD3:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},
+ AD4:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'1.1'},AD5:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'ทำได้'},AD6:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'1.1'},
+ AD7:{k:'H',and:'S ถ้าคนขับใช้แอพ / H ถ้า GPS รถ',ios:'S',need:'คนขับ',cost:'—',v:'later'},AD8:{k:'H',and:'H',ios:'H',need:'watch/band',cost:'ตาม B2',v:'ตาม B2'},
+ AD9:{k:'P',and:'P LLM',ios:'P',need:'—',cost:'0.01–0.05 USD/คำถาม',v:'v2'},AD10:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'v2'},AD11:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'v2'},AD12:{k:'S',and:'S+L',ios:'S+L',need:'moderation',cost:'—',v:'later'}
+};
