@@ -292,3 +292,13 @@ window.PP.FEAS={
  AD7:{k:'H',and:'S ถ้าคนขับใช้แอพ / H ถ้า GPS รถ',ios:'S',need:'คนขับ',cost:'—',v:'later'},AD8:{k:'H',and:'H',ios:'H',need:'watch/band',cost:'ตาม B2',v:'ตาม B2'},
  AD9:{k:'P',and:'P LLM',ios:'P',need:'—',cost:'0.01–0.05 USD/คำถาม',v:'v2'},AD10:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'v2'},AD11:{k:'S',and:'S',ios:'S',need:'—',cost:'—',v:'v2'},AD12:{k:'S',and:'S+L',ios:'S+L',need:'moderation',cost:'—',v:'later'}
 };
+// ---- Watch decision (2026-09-14) ----
+window.PP.WATCH={
+ verdict:'ซื้อ watch สำเร็จรูปแล้ว integrate ผ่าน API/protocol — ไม่เขียนแอพลงนาฬิกา · ซื้อทีหลังเมื่อ Survey ① ยืนยันโรงเรียนห้ามมือถือ > 50 %',
+ options:[
+  {t:'1. นาฬิกาเด็ก 4G จาก OEM (white-label)',pick:true,pro:'30–60 USD/เรือน · SIM 4G ลาว/ไทย · ปุ่ม SOS กายภาพ · integrate ได้ 2 แบบ: vendor cloud API หรือชี้ watch มา server เรา (SMS config APN/IP) แล้วคุย TCP/MQTT protocol ของเขา (ตระกูล Wonlex / SeTracker / 3g-elec)',con:'ต้องเช็กก่อนซื้อว่า vendor ให้ API/protocol doc จริง — imoo, Xplora ปิด · ยังไม่ได้ตรวจเจ้าใดเป็นรายตัว'},
+  {t:'2. Apple Watch SE (Family Setup) / Wear OS',pick:false,pro:'เขียนแอพ watchOS / Wear OS เองได้',con:'250+ USD · เด็ก G1–G3 ไม่มี · Apple Watch เด็กต้องตั้งผ่าน iPhone พ่อแม่ · ไม่เหมาะตลาดไทย/ลาว'},
+  {t:'3. ทำ hardware เอง',pick:false,pro:'—',con:'ไม่คุ้มก่อนมีผู้ใช้'}
+ ],
+ steps:['MVP S1–S3 ทำบนมือถือ G3 ก่อน ไม่แตะ watch','Survey ① ถามโรงเรียนห้ามมือถือกี่ % — ถ้า > 50 % เดินทาง 1','ซื้อ sample 2–3 เรือนจาก OEM ที่ยืนยันแล้วว่ามี API/protocol doc (F12 ~100–180 USD รวม SIM)','ทดสอบ 1 สัปดาห์: พิกัดถึง server เราไหม · SOS ปุ่มกายภาพยิง event ไหม · แบตอยู่กี่วัน','ผ่านแล้วทำ device-gateway (Architecture v0.7 §3) ใน Sprint 1.1']
+};

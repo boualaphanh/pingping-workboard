@@ -170,6 +170,16 @@ button.node{cursor:pointer;text-align:left}button.node:hover{filter:brightness(.
 .fixed .fx b{font-family:var(--ff-d);font-size:13px}.fixed .fx i{font-style:normal;color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}.fixed .fx small{color:var(--muted)}
 .fixed .fx.sum{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.fixed .fx.sum b,.fixed .fx.sum i,.fixed .fx.sum small{color:var(--accent-ink)}
 table.rt td.k{width:40px}
+.watch{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--sand);border-radius:12px;padding:14px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.watch h3{font-size:16px;grid-column:1/-1}
+.watch .verdict{grid-column:1/-1;font-weight:600;color:var(--accent)}
+.watch .opt{border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:13px}
+.watch .opt.pick{border-color:var(--accent);background:var(--accent-soft)}
+.watch .opt b{display:block;font-family:var(--ff-d);margin-bottom:3px}
+.watch .opt span{display:block;color:var(--muted)}
+.watch .opt span i{font-style:normal;color:var(--ink);font-weight:600}
+.watch ol{margin:0;padding-left:20px;font-size:13px;display:flex;flex-direction:column;gap:4px}
+@media (max-width:700px){.watch{grid-template-columns:1fr}}
 /* research + painpoint tables */
 table.rt{min-width:960px}
 table.rt td{vertical-align:top;font-size:13px;line-height:1.45}
@@ -228,6 +238,7 @@ table.rt tr.done td{background:color-mix(in srgb,var(--accent-soft) 40%,transpar
       </div>
       <div class="view" id="v-feas" hidden>
         <p class="hint"><span class="kk S">S</span> ซอฟต์แวร์ล้วน ทำได้เลย &nbsp; <span class="kk P">P</span> ต้องจ่าย/สมัครบริการ &nbsp; <span class="kk H">H</span> ต้องมี hardware/IoT &nbsp; <span class="kk OS">OS</span> ระบบปฏิบัติการจำกัด (ส่วนใหญ่ iOS) &nbsp; L = ต้องผ่านกฎหมาย/consent · รายละเอียดใน Feasibility v0.6</p>
+        <div class="watch" id="watch"></div>
         <div class="fixed" id="fixed"></div>
         <div class="tblwrap"><table id="feas" class="rt"></table></div>
       </div>

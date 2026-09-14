@@ -107,7 +107,7 @@ function renderPain(){const t=$('#pain');t.innerHTML='<thead><tr><th>ใช้</
       tr.querySelector('input').onchange=e=>{if(e.target.checked)S.pain[p.id]=1;else delete S.pain[p.id];save();renderPain();};tb.appendChild(tr);});});t.appendChild(tb);}
 
 /* feasibility */
-function renderFeas(){const fx=$('#fixed');fx.innerHTML='';fx.appendChild(el('div','fx sum','<b>ขั้นต่ำเพื่อเริ่ม MVP</b><i>~124 USD ครั้งเดียว + 30–50 USD/เดือน</i><small>+ SMS ตามใช้จริง · watch sample แยก</small>'));
+function renderFeas(){const wv=window.PP.WATCH;const wd=$('#watch');wd.innerHTML=`<h3>B2 Watch — ต้องซื้อไหม? ต้องเขียนแอพลงนาฬิกาไหม? (ตัดสิน 2026-09-14)</h3><div class="verdict">${wv.verdict}</div>`+wv.options.map(o=>`<div class="opt${o.pick?' pick':''}"><b>${o.t}${o.pick?' ✓ แนะนำ':''}</b><span><i>ข้อดี:</i> ${o.pro}</span><span><i>ข้อจำกัด:</i> ${o.con}</span></div>`).join('')+`<div><b style="font-family:var(--ff-d)">ลำดับที่ต้องทำ</b><ol>${wv.steps.map(s=>`<li>${s}</li>`).join('')}</ol></div>`;const fx=$('#fixed');fx.innerHTML='';fx.appendChild(el('div','fx sum','<b>ขั้นต่ำเพื่อเริ่ม MVP</b><i>~124 USD ครั้งเดียว + 30–50 USD/เดือน</i><small>+ SMS ตามใช้จริง · watch sample แยก</small>'));
   window.PP.FIXED.forEach(f=>fx.appendChild(el('div','fx',`<b>${f.id} ${f.t}</b><i>${f.c}</i><small>${f.w}</small>`)));
   const t=$('#feas');t.innerHTML='<thead><tr><th>#</th><th>Feature</th><th>ประเภท</th><th>Android</th><th>iOS</th><th>ต้องมี</th><th>ต้นทุน</th><th>คำตัดสิน</th></tr></thead>';const tb=el('tbody');const FE=window.PP.FEAS;
   Object.keys(GROUPS).forEach(gk=>{const rows=F.filter(f=>f.g===gk&&FE[f.id]);if(!rows.length)return;const c={S:0,P:0,H:0,OS:0};rows.forEach(f=>c[FE[f.id].k]++);
