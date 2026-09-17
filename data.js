@@ -114,32 +114,41 @@ const SCREENS = {
  ]
 };
 const GAPS = [
- {id:'G-01',t:'รับ-ส่งลูก (Pickup)',w:'painpoint ประจำวัน หลายคนรับส่ง',ad:'AD1'},
+ // acc:1 = รับเข้าแผนแล้ว (2026-09-17)
+ {id:'G-01',acc:1,t:'รับ-ส่งลูก (Pickup)',w:'painpoint ประจำวัน หลายคนรับส่ง',ad:'AD1'},
  {id:'G-02',t:'ปฏิทินครอบครัว',w:'zone/schedule/education ต้องการตารางเดียวกัน',ad:'AD2'},
  {id:'G-03',t:'Emergency Card',w:'ตอน SOS ต้องรู้กรุ๊ปเลือด แพ้ยา',ad:'AD3'},
  {id:'G-04',t:'Offline / สัญญาณอ่อน',w:'ลาว/ต่างจังหวัด internet ไม่เสถียร — queue + SMS fallback',ad:''},
- {id:'G-05',t:'หาอุปกรณ์หาย',w:'เด็กทำมือถือหายบ่อยกว่าเด็กหาย',ad:'AD4'},
- {id:'G-06',t:'ภาษา TH / LO / EN',w:'ตั้งแต่ MVP',ad:''},
+ {id:'G-05',acc:1,t:'หาอุปกรณ์หาย',w:'เด็กทำมือถือหายบ่อยกว่าเด็กหาย',ad:'AD4'},
+ {id:'G-06',acc:1,t:'ภาษา TH / LO / EN',w:'ตั้งแต่ MVP',ad:''},
  {id:'G-07',t:'Trust Dashboard',w:'เด็กไม่รู้ว่าถูกดูอะไร → ลบแอพ',ad:'AD5'},
- {id:'G-08',t:'ฝั่งเด็กได้อะไร',w:'Wallet / Portfolio / Badges ต้องเป็นของเด็กจริง',ad:''},
- {id:'G-09',t:'Request & Approve',w:'ขอเวลา / ขอเงิน / ขอไปที่อื่น pattern เดียว',ad:'AD6'},
+ {id:'G-08',acc:1,t:'ฝั่งเด็กได้อะไร',w:'Wallet / Portfolio / Badges ต้องเป็นของเด็กจริง',ad:''},
+ {id:'G-09',acc:1,t:'Request & Approve',w:'ขอเวลา / ขอเงิน / ขอไปที่อื่น pattern เดียว',ad:'AD6'},
  {id:'G-10',t:'Hardware partner (watch)',w:'G1–G2 ใช้ไม่ได้ถ้าไม่มี',ad:''},
  {id:'G-11',t:'Benchmark data',w:'วันแรกไม่มีผู้ใช้เทียบ — ใช้ WHO/งานวิจัย',ad:''},
  {id:'G-12',t:'กฎหมายฟังเสียง / สแกนแชต',w:'ที่ปรึกษากฎหมายก่อน v1.1',ad:''},
  {id:'G-13',t:'Data retention',w:'เก็บกี่วัน ลบยังไง ใครขอได้',ad:''},
  {id:'G-14',t:'Admin / Ops web',w:'ดู SOS สด · filter list · survey results',ad:''},
- {id:'G-15',t:'Team analytics funnel',w:'ติดตั้ง → pair → ใช้ 7 วัน',ad:''},
+ {id:'G-15',acc:1,t:'Team analytics funnel',w:'ติดตั้ง → pair → ใช้ 7 วัน',ad:''},
  {id:'G-16',t:'Painpoint ❓',w:'Survey 30 ครอบครัว สัมภาษณ์ 10',ad:''},
- {id:'G-18',t:'EZ Find · Velocity · Free',w:'ยังไม่แปลงเป็น design principle',ad:''}
+ {id:'G-18',acc:1,t:'EZ Find · Velocity · Free',w:'ยังไม่แปลงเป็น design principle',ad:''}
 ];
 const DECISIONS = [
+ // done = ผลตัดสินจริง (2026-09-17) · ไม่มี done = ยังเปิดอยู่ · ติ๊กบนบอร์ดจะทับค่านี้เฉพาะเครื่องนั้น
  {id:'D-1',t:'Watch partner',o:'เลือก OEM ตอนนี้ / เลื่อน',r:'เลื่อนไป S3 · MVP เริ่มที่ G3 มือถือ'},
- {id:'D-2',t:'Platform ลำดับ',o:'Android / iOS / พร้อมกัน',r:'Flutter ทั้งคู่ · ทดสอบ Android ก่อน'},
- {id:'D-3',t:'Backend',o:'Firebase / Supabase / self-host',r:'Supabase (Postgres + realtime + OTP)'},
- {id:'D-4',t:'Map',o:'Google / Mapbox / OSM',r:'Google Maps · flutter_map+OSM fallback'},
+ {id:'D-2',t:'Platform ลำดับ',o:'Android / iOS / พร้อมกัน',r:'Flutter ทั้งคู่ · ทดสอบ Android ก่อน',done:'Flutter ทั้งคู่ · Android-first',on:'2026-09-17'},
+ {id:'D-3',t:'Backend',o:'Firebase / Supabase / self-host',r:'self-host ตาม handbook',done:'Express 5 + TS + Drizzle + PostgreSQL 15 ตาม R1 handbook · Supabase ใช้ได้แค่ hosting Postgres (D-16) · NestJS พิจารณาแล้ว ไม่ใช้',on:'2026-09-17'},
+ {id:'D-4',t:'Map',o:'Google / Mapbox / OSM',r:'Google Maps · flutter_map+OSM fallback',done:'Google Maps · flutter_map+OSM fallback',on:'2026-09-17'},
  {id:'D-5',t:'Survey ①',o:'ก่อน S1 / คู่ขนาน',r:'คู่ขนาน · ส่งสัปดาห์นี้ ใช้ผลปรับ S2'},
  {id:'D-6',t:'ที่ปรึกษากฎหมาย',o:'ก่อน MVP / ก่อน 1.1',r:'ก่อน 1.1 (MVP ไม่มี audio/AI)'},
- {id:'D-7',t:'Financial input',o:'ลูกกรอก / พ่อแม่ / e-wallet',r:'ลูกกรอก (G3+) · พ่อแม่ (G2) · e-wallet v2'}
+ {id:'D-7',t:'Financial input',o:'ลูกกรอก / พ่อแม่ / e-wallet',r:'ลูกกรอก (G3+) · พ่อแม่ (G2) · e-wallet v2',done:'ลูกกรอก (G3+) · พ่อแม่ (G2) · e-wallet v2',on:'2026-09-17'},
+ // จาก Architecture v0.7 §10 — ต้องตัดสินก่อน S0
+ {id:'D-13',t:'reverse-DNS root (app id)',o:'la.pingping / com.unclebuafarm.pingping',r:'ซื้อ pingping.la ถ้าว่าง — id เปลี่ยนไม่ได้ทีหลัง'},
+ {id:'D-14',t:'Dart client generator',o:'openapi-generator dart-dio / swagger_parser',r:'ประเมิน 9 เกณฑ์ handbook มือถือ §6 ใน S0 วันแรก'},
+ {id:'D-15',t:'Background location plugin',o:'geolocator + foreground service / flutter_background_geolocation',r:'ฟรีก่อน · วัดแบต 30 นาทีต่อ release'},
+ {id:'D-16',t:'Postgres hosting prod',o:'Supabase SG / RDS / VPS',r:'Supabase SG (Postgres อย่างเดียว) · ทดสอบ reachability จากลาวก่อน'},
+ {id:'D-17',t:'Admin web ใน MVP',o:'มี / ไม่มี',r:'ไม่มี — SQL + Sentry จน S3'},
+ {id:'D-18',t:'ภาษา ARB เริ่มต้น',o:'th+en / th+lo+en',r:'th+lo+en ตั้งแต่ S0'}
 ];
 return {GENS,F,GROUPS,PHASES,PHASE_LABEL,PARENT_TABS,SCREENS,GAPS,DECISIONS};
 })();

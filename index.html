@@ -226,6 +226,7 @@ table.rt tr.done td{background:color-mix(in srgb,var(--accent-soft) 40%,transpar
       <h1>PingPing Workboard<small>ลองเล่นระบบตามช่วงวัย · แก้สถานะ · ลาก priority · ติ๊ก gap — บันทึกในเครื่องนี้อัตโนมัติ</small></h1></div>
     <div class="actions">
       <button class="btn" id="btnCopy">คัดลอกสถานะ (JSON)</button>
+      <button class="btn" id="btnPaste">วางสถานะ (JSON)</button>
       <button class="btn" id="btnReset">รีเซ็ตเป็นค่าวิเคราะห์</button>
     </div>
   </header>
@@ -288,7 +289,7 @@ table.rt tr.done td{background:color-mix(in srgb,var(--accent-soft) 40%,transpar
       <div class="view" id="v-gaps" hidden>
         <div class="two">
           <div><h2 style="font-size:18px;margin-bottom:10px">สิ่งที่ขาด — ติ๊กเมื่อรับเข้าแผน</h2><div class="list" id="gaps"></div></div>
-          <div><h2 style="font-size:18px;margin-bottom:10px">ต้องตัดสินใจก่อน Sprint 1 — ติ๊กเมื่อตัดสินแล้ว</h2><div class="list" id="decisions"></div></div>
+          <div><h2 style="font-size:18px;margin-bottom:10px">ต้องตัดสินใจก่อน S0/S1 — ติ๊กเมื่อตัดสินแล้ว (ค่าเริ่มต้น = ผลจริง 2026-09-17)</h2><div class="list" id="decisions"></div></div>
         </div>
       </div>
     </section>

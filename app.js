@@ -73,11 +73,13 @@ function renderBoard(){const n=$('#board');n.innerHTML='';
     n.appendChild(col);});}
 
 /* gaps + decisions */
-function renderGaps(){const n=$('#gaps');n.innerHTML='';GAPS.forEach(g=>{const on=!!S.gaps[g.id];const it=el('div','item'+(on?' done':''));it.innerHTML=`<input type="checkbox" id="gap-${g.id}" ${on?'checked':''} aria-label="รับ ${g.t}"><label for="gap-${g.id}"><span class="id">${g.id}</span> <b>${g.t}</b><small>${g.w}</small></label>${g.ad?`<span class="r">→ ${g.ad} ${fById(g.ad)?fById(g.ad).name:''}</span>`:'<span></span>'}`;
-    it.querySelector('input').onchange=e=>{if(e.target.checked)S.gaps[g.id]=1;else delete S.gaps[g.id];save();renderGaps();};n.appendChild(it);});
-  const d=$('#decisions');d.innerHTML='';DECISIONS.forEach(x=>{const on=!!S.dec[x.id];const it=el('div','item'+(on?' done':''));it.innerHTML=`<input type="checkbox" id="dec-${x.id}" ${on?'checked':''} aria-label="ตัดสินใจ ${x.t}"><label for="dec-${x.id}"><span class="id">${x.id}</span> <b>${x.t}</b><small>ตัวเลือก: ${x.o}</small></label><span class="r">เสนอ: ${x.r}</span>`;
-    it.querySelector('input').onchange=e=>{if(e.target.checked)S.dec[x.id]=1;else delete S.dec[x.id];save();renderGaps();};d.appendChild(it);});}
-
+/* tri-state: S.gaps/S.dec[id] = 1 (ติ๊ก) · 0 (เอาออก) · ไม่มี = ค่าจากเอกสาร (acc / done) */
+const tri=(m,id,base)=>m[id]===undefined?!!base:!!m[id];
+const setTri=(m,id,base,v)=>{if(v===!!base)delete m[id];else m[id]=v?1:0;};
+function renderGaps(){const n=$('#gaps');n.innerHTML='';GAPS.forEach(g=>{const on=tri(S.gaps,g.id,g.acc);const it=el('div','item'+(on?' done':''));it.innerHTML=`<input type="checkbox" id="gap-${g.id}" ${on?'checked':''} aria-label="รับ ${g.t}"><label for="gap-${g.id}"><span class="id">${g.id}</span> <b>${g.t}</b><small>${g.w}</small></label>${g.ad?`<span class="r">→ ${g.ad} ${fById(g.ad)?fById(g.ad).name:''}</span>`:'<span></span>'}`;
+    it.querySelector('input').onchange=e=>{setTri(S.gaps,g.id,g.acc,e.target.checked);save();renderGaps();};n.appendChild(it);});
+  const d=$('#decisions');d.innerHTML='';DECISIONS.forEach(x=>{const on=tri(S.dec,x.id,x.done);const it=el('div','item'+(on?' done':''));it.innerHTML=`<input type="checkbox" id="dec-${x.id}" ${on?'checked':''} aria-label="ตัดสินใจ ${x.t}"><label for="dec-${x.id}"><span class="id">${x.id}</span> <b>${x.t}</b><small>ตัวเลือก: ${x.o}</small>${x.done?`<small>ตัดสิน ${x.on}: <b style="display:inline">${x.done}</b></small>`:''}</label><span class="r">${x.done?'ตัดสินแล้ว':'เสนอ: '+x.r}</span>`;
+    it.querySelector('input').onchange=e=>{setTri(S.dec,x.id,x.done,e.target.checked);save();renderGaps();};d.appendChild(it);});}
 /* sitemap */
 const isAddon=f=>f&&f.g==='X';
 function smNode(s,lvl){const f=s.f?fById(s.f):null;const st=f?stOf(f,S.gen):null;const gOk=!s.gens||s.gens.split(' ').includes(S.gen);const on=gOk&&st!=='N';
@@ -118,8 +120,12 @@ function renderFeas(){const wv=window.PP.WATCH;const wd=$('#watch');wd.innerHTML
 
 /* actions */
 $('#btnReset').onclick=()=>{if(!confirm('ล้างการแก้ไขทั้งหมด กลับเป็นค่าจากเอกสารวิเคราะห์?'))return;const g=S.gen;S=blank();S.gen=g;save();renderAll();toast('รีเซ็ตแล้ว');};
-$('#btnCopy').onclick=async()=>{const out={gen:S.gen,overrides:S.ov,phases:S.ph,gapsAccepted:Object.keys(S.gaps),decided:Object.keys(S.dec),painpointsSelected:Object.keys(S.pain||{}),matrix:F.map(f=>({id:f.id,name:f.name,phase:phOf(f),status:Object.fromEntries(GENS.map(g=>[g.id,stOf(f,g.id)]))}))};
+$('#btnCopy').onclick=async()=>{const out={gen:S.gen,overrides:S.ov,phases:S.ph,gapsAccepted:GAPS.filter(g=>tri(S.gaps,g.id,g.acc)).map(g=>g.id),decided:DECISIONS.filter(x=>tri(S.dec,x.id,x.done)).map(x=>x.id),painpointsSelected:Object.keys(S.pain||{}),matrix:F.map(f=>({id:f.id,name:f.name,phase:phOf(f),status:Object.fromEntries(GENS.map(g=>[g.id,stOf(f,g.id)]))}))};
   const txt=JSON.stringify(out,null,2);try{await navigator.clipboard.writeText(txt);toast('คัดลอกแล้ว');}catch(e){prompt('คัดลอกข้อความนี้',txt);}};
+$('#btnPaste').onclick=()=>{const txt=prompt('วาง JSON ที่ได้จาก "คัดลอกสถานะ"');if(!txt)return;let j;try{j=JSON.parse(txt);}catch(e){toast('JSON ไม่ถูกต้อง');return;}
+  const g=S.gen;S=blank();S.gen=GENS.some(x=>x.id===j.gen)?j.gen:g;S.ov=j.overrides||{};S.ph=j.phases||{};
+  GAPS.forEach(x=>setTri(S.gaps,x.id,x.acc,(j.gapsAccepted||[]).includes(x.id)));DECISIONS.forEach(x=>setTri(S.dec,x.id,x.done,(j.decided||[]).includes(x.id)));
+  (j.painpointsSelected||[]).forEach(id=>S.pain[id]=1);save();renderAll();toast('นำเข้าแล้ว');};
 
 function renderAll(){renderGens();renderRail();renderTabs();renderMatrix();renderPreview();renderBoard();renderGaps();renderMind();renderResearch();renderPain();renderFeas();}
 renderAll();
