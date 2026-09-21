@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P09 Alert Detail (SOS)
+     Features: A4.2 SOS detail with position and time · A4.4 whole family notified
+               A11 battery at the moment of the alert · AD3 Emergency Card reachable from here
+     States: loading · empty (already resolved by another member) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P09 · SOS Alert Detail</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p09_title"></span>
+  </header>
+
+  <main class="pp-content">
+
+    <!-- ok ------------------------------------------------------------------>
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+
+      <section class="pp-card" data-tone="error">
+        <div class="pp-row">
+          <span class="pp-avatar" style="background:var(--md-sys-color-error);color:var(--md-sys-color-on-error)">
+            <span class="pp-icon" data-fill>sos</span>
+          </span>
+          <div class="pp-col pp-grow">
+            <span class="pp-display" data-i18n="p09_headline" data-i18n-args="name:#sosAlert"></span>
+            <span class="pp-label pp-num" style="color:inherit;opacity:.85" data-i18n="p09_when"></span>
+          </div>
+        </div>
+        <div class="pp-hairline" style="background:currentColor;opacity:.18"></div>
+        <div class="pp-row">
+          <span class="pp-icon">check_circle</span>
+          <span data-i18n="p09_notified"></span>
+        </div>
+      </section>
+
+      <section class="pp-card" data-raised>
+        <div class="pp-map">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g stroke="var(--md-sys-color-outline)" stroke-width="6" opacity=".35" fill="none">
+              <path d="M-10 88 H 320" /><path d="M118 -10 V 150" />
+            </g>
+            <g stroke="var(--md-sys-color-outline)" stroke-width="2" opacity=".26" fill="none">
+              <path d="M-10 36 H 320" /><path d="M232 -10 V 150" />
+            </g>
+          </svg>
+          <span class="pp-pin" data-tone="error" style="left:44%;top:56%"></span>
+        </div>
+        <div class="pp-col">
+          <span style="font-weight:600" data-i18n="p09_where"></span>
+          <span class="pp-label pp-num" data-i18n="p09_accuracy"></span>
+          <span class="pp-label pp-num" data-i18n="p09_battery_at_alert" data-i18n-args="n:@sosAlert.batteryAtAlert"></span>
+        </div>
+        <md-filled-button>
+          <span class="pp-icon" slot="icon">call</span>
+          <span data-i18n="p09_call_child" data-i18n-args="name:#sosAlert"></span>
+        </md-filled-button>
+      </section>
+
+      <!-- AD3 · the card a responder needs in the first minute -->
+      <section class="pp-card">
+        <div class="pp-row">
+          <span class="pp-icon" style="color:var(--md-sys-color-tertiary)">medical_information</span>
+          <span class="pp-title pp-grow" data-i18n="p09_emergency_card"></span>
+          <a class="pp-touch" href="P31.html" aria-label="Open emergency card"><span class="pp-icon">chevron_right</span></a>
+        </div>
+        <div class="pp-list">
+          <div class="pp-list-item">
+            <span class="pp-label pp-grow" data-i18n="p09_blood_type"></span>
+            <span style="font-weight:600" data-val="sosAlert.emergencyCard.bloodType"></span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-label pp-grow" data-i18n="p09_allergies"></span>
+            <span style="font-weight:600" data-i18n="p09_allergies_value"></span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-label pp-grow" data-i18n="p09_contact"></span>
+            <span style="font-weight:600" data-i18n="p09_contact_value"></span>
+          </div>
+        </div>
+      </section>
+
+      <md-outlined-button data-i18n="p09_resolve"></md-outlined-button>
+    </div>
+
+    <!-- loading --------------------------------------------------------------->
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)" aria-busy="true">
+      <div class="pp-skel" style="height:104px"></div>
+      <div class="pp-card" data-raised>
+        <div class="pp-skel" style="height:132px"></div>
+        <div class="pp-skel" style="height:13px;width:70%"></div>
+        <div class="pp-skel" style="height:11px;width:48%"></div>
+        <div class="pp-skel" style="height:40px"></div>
+      </div>
+      <div class="pp-skel" style="height:140px"></div>
+    </div>
+
+    <!-- empty — resolved by someone else, so there is nothing to act on ------->
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column">
+      <div class="pp-figure">
+        <span class="pp-icon">task_alt</span>
+        <h2 class="pp-title" data-i18n="p09_empty_title"></h2>
+        <p data-i18n="p09_empty_body"></p>
+        <md-outlined-button data-i18n="common_back" style="margin-top:var(--pp-s2)" onclick="history.back()"></md-outlined-button>
+      </div>
+    </div>
+
+    <!-- error ----------------------------------------------------------------->
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">error</span>
+        <h2 class="pp-title" data-i18n="p09_error_title"></h2>
+        <p data-i18n="p09_error_body"></p>
+        <md-filled-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!-- PingPing prototype hub.
+     THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     Design: docs/superpowers/specs/20260921-ui-prototype-design.md -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PingPing · UI prototype</title>
+<link rel="stylesheet" href="shell/base.css">
+<link rel="stylesheet" href="tokens/parent.css">
+<link rel="stylesheet" href="shell/components.css">
+<style>
+  body { background: #0f1211; color: #e8eae7; }
+  .hub { display: grid; grid-template-columns: 300px 1fr; min-height: 100dvh; }
+  .side {
+    background: #161a18;
+    border-right: 1px solid #262b28;
+    padding: var(--pp-s4);
+    display: flex; flex-direction: column; gap: var(--pp-s4);
+    overflow-y: auto;
+  }
+  .side h1 { font-size: 17px; font-weight: 700; letter-spacing: .01em; }
+  .side .sub { font-size: 12px; color: #98a09b; line-height: 1.6; }
+  .grp { display: flex; flex-direction: column; gap: var(--pp-s2); }
+  .grp > .lbl { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #7e8781; }
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+  .seg button {
+    flex: 1 1 auto; min-width: 58px; min-height: 34px;
+    background: #1f2523; color: #cfd5d1;
+    border: 1px solid #2d3431; border-radius: 9px;
+    font: inherit; font-size: 12.5px; cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+  }
+  .seg button[aria-pressed="true"] { background: #A6F2D4; color: #002017; border-color: #A6F2D4; font-weight: 700; }
+  .screens { display: flex; flex-direction: column; gap: 4px; }
+  .screens button {
+    display: flex; align-items: center; gap: 8px;
+    min-height: 40px; padding: 6px 10px;
+    background: none; border: 0; border-radius: 9px;
+    color: #cfd5d1; font: inherit; font-size: 13px; text-align: left; cursor: pointer;
+  }
+  .screens button:hover { background: #1f2523; }
+  .screens button[aria-current="true"] { background: #1f2523; color: #fff; font-weight: 600; }
+  .screens .id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: #7fd9b6; }
+  .screens .todo { opacity: .38; }
+  .stage { display: flex; align-items: center; justify-content: center; padding: var(--pp-s5); }
+  .device {
+    width: 412px; height: 915px;
+    max-height: calc(100dvh - 48px);
+    border-radius: 34px;
+    border: 1px solid #333a36;
+    background: #000;
+    box-shadow: 0 30px 70px -40px rgba(0,0,0,.95);
+    overflow: hidden;
+    position: relative;
+    flex: 0 0 auto;
+  }
+  .device iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+  .meta { position: fixed; right: var(--pp-s4); bottom: var(--pp-s4); font-size: 11px; color: #6f7773; text-align: right; line-height: 1.7; }
+  .meta a { color: #7fd9b6; }
+  @media (max-width: 860px) {
+    .hub { grid-template-columns: 1fr; }
+    .side { border-right: 0; border-bottom: 1px solid #262b28; }
+    .stage { padding: 0; }
+    .device { width: 100%; height: calc(100dvh - 260px); border-radius: 0; border: 0; }
+    .meta { display: none; }
+  }
+</style>
+</head>
+<body data-app="parent" data-theme="dark">
+
+<div class="hub">
+  <aside class="side">
+    <div>
+      <h1>PingPing · UI prototype</h1>
+      <p class="sub">Throwaway. Mock data. No server.<br>Batch S1 — 18 of 18 screens built.</p>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">App</span>
+      <div class="seg" id="segApp">
+        <button data-v="parent" aria-pressed="true">Parent</button>
+        <button data-v="kids" aria-pressed="false">Kids</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Language</span>
+      <div class="seg" id="segLang">
+        <button data-v="en" aria-pressed="true">English</button>
+        <button data-v="lo" aria-pressed="false">ລາວ</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Theme</span>
+      <div class="seg" id="segTheme">
+        <button data-v="light" aria-pressed="true">Light</button>
+        <button data-v="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">State</span>
+      <div class="seg" id="segState">
+        <button data-v="ok" aria-pressed="true">Success</button>
+        <button data-v="loading" aria-pressed="false">Loading</button>
+        <button data-v="empty" aria-pressed="false">Empty</button>
+        <button data-v="error" aria-pressed="false">Error</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Screen</span>
+      <div class="screens" id="screens"></div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="device"><iframe id="frame" title="Prototype screen"></iframe></div>
+  </main>
+</div>
+
+<p class="meta">
+  Spec: <code>20260921-ui-prototype-design.md</code><br>
+  Open current screen on its own: <a id="direct" href="screens/P10.html" target="_blank">screens/P10.html</a>
+</p>
+
+<script>
+/* Screen inventory. `built: true` rows are the rest of batch S1, shown so that what is
+   missing stays visible rather than being quietly absent. */
+var SCREENS = [
+  { app: "parent", id: "P10", name: "Live map (home)", built: true },
+  { app: "parent", id: "P01", name: "Splash", built: true },
+  { app: "parent", id: "P02", name: "Sign in (OTP)", built: true },
+  { app: "parent", id: "P04", name: "Add child", built: true },
+  { app: "parent", id: "P05", name: "Pair device", built: true },
+  { app: "parent", id: "P06", name: "Permissions", built: true },
+  { app: "parent", id: "P09", name: "SOS alert detail", built: true },
+  { app: "parent", id: "P11", name: "Location history", built: true },
+  { app: "parent", id: "P20", name: "Devices & battery", built: true },
+  { app: "parent", id: "P27", name: "Child profile", built: true },
+  { app: "parent", id: "P28", name: "Family & roles", built: true },
+  { app: "parent", id: "P31", name: "Emergency card", built: true },
+  { app: "parent", id: "P34", name: "Loud signal (A5)", built: true },
+  { app: "kids", id: "K01", name: "Pairing", built: true },
+  { app: "kids", id: "K02", name: "Kids home + SOS", built: true },
+  { app: "kids", id: "K03", name: "SOS countdown", built: true },
+  { app: "kids", id: "K08", name: "Kids settings", built: true },
+  { app: "kids", id: "K09", name: "Loud signal (A5)", built: true }
+];
+
+var state = { app: "parent", lang: "en", theme: "light", state: "ok", screen: "P10" };
+
+function query() {
+  return "?app=" + state.app + "&lang=" + state.lang + "&theme=" + state.theme + "&state=" + state.state;
+}
+
+function push() {
+  var f = document.getElementById("frame");
+  if (f.contentWindow) {
+    f.contentWindow.postMessage({ type: "pp-set", lang: state.lang, theme: state.theme, state: state.state }, "*");
+  }
+  document.getElementById("direct").href = "screens/" + state.screen + ".html" + query();
+  document.getElementById("direct").textContent = "screens/" + state.screen + ".html";
+}
+
+function load() {
+  document.getElementById("frame").src = "screens/" + state.screen + ".html" + query();
+  push();
+}
+
+function renderScreens() {
+  var box = document.getElementById("screens");
+  box.innerHTML = "";
+  SCREENS.filter(function (s) { return s.app === state.app; }).forEach(function (s) {
+    var b = document.createElement("button");
+    b.className = s.built ? "" : "todo";
+    b.setAttribute("aria-current", s.id === state.screen ? "true" : "false");
+    b.innerHTML = '<span class="id">' + s.id + "</span><span>" + s.name + "</span>" +
+                  (s.built ? "" : '<span style="margin-left:auto;font-size:10.5px">todo</span>');
+    b.disabled = !s.built;
+    b.onclick = function () { state.screen = s.id; renderScreens(); load(); };
+    box.appendChild(b);
+  });
+}
+
+function seg(id, key, after) {
+  var box = document.getElementById(id);
+  box.querySelectorAll("button").forEach(function (b) {
+    b.onclick = function () {
+      state[key] = b.getAttribute("data-v");
+      box.querySelectorAll("button").forEach(function (o) {
+        o.setAttribute("aria-pressed", o === b ? "true" : "false");
+      });
+      if (after) after();
+    };
+  });
+}
+
+seg("segApp", "app", function () {
+  var first = SCREENS.filter(function (s) { return s.app === state.app && s.built; })[0];
+  state.screen = first ? first.id : state.screen;
+  renderScreens();
+  load();
+});
+seg("segLang", "lang", push);
+seg("segTheme", "theme", push);
+seg("segState", "state", push);
+
+document.getElementById("frame").addEventListener("load", push);
+renderScreens();
+load();
+</script>
+</body>
+</html>

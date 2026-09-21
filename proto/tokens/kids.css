@@ -1,0 +1,85 @@
+/* PingPing prototype — Kids theme (flavor: kids, seed #8FD44A)
+   THROWAWAY PROTOTYPE. Values migrate to Flutter as ColorScheme.fromSeed + PpTheme extension.
+   Source of truth: docs/superpowers/specs/20260921-ui-prototype-design.md §3.2 and §3.3
+   Note: on-primary is dark green, not white — white on this lime is 3.52:1 and fails WCAG AA. */
+
+[data-app="kids"] {
+  --md-sys-color-primary: #8FD44A;
+  --md-sys-color-on-primary: #14290A;
+  --md-sys-color-primary-container: #D9F5B4;
+  --md-sys-color-on-primary-container: #1D3808;
+
+  --md-sys-color-secondary: #59624C;
+  --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: #DEE7CB;
+  --md-sys-color-on-secondary-container: #171E0D;
+
+  --md-sys-color-tertiary: #8D6E63;
+  --md-sys-color-on-tertiary: #FFFFFF;
+  --md-sys-color-tertiary-container: #F3E3DC;
+  --md-sys-color-on-tertiary-container: #3B2B26;
+
+  --md-sys-color-surface: #FFFDF6;
+  --md-sys-color-surface-container: #F2EFE2;
+  --md-sys-color-surface-container-high: #ECE9DC;
+  --md-sys-color-on-surface: #1A1C16;
+  --md-sys-color-on-surface-variant: #44483D;
+
+  --md-sys-color-outline: #C6C9BA;
+  --md-sys-color-outline-variant: #DFE3D2;
+
+  --md-sys-color-error: #C2160F;
+  --md-sys-color-on-error: #FFFFFF;
+  --md-sys-color-error-container: #FFDAD5;
+  --md-sys-color-on-error-container: #410002;
+
+  --pp-status-safe: #1E7D32;
+  --pp-on-status-safe: #FFFFFF;
+  --pp-status-stale: #B0562F;
+  --pp-on-status-stale: #FFFFFF;
+  --pp-status-offline: #5D5F5B;
+  --pp-on-status-offline: #FFFFFF;
+  --pp-map-tint: #EBF0DF;
+  --pp-map-zone: #D9F5B4;
+  --pp-hairline: var(--md-sys-color-outline);
+}
+
+[data-app="kids"][data-theme="dark"] {
+  --md-sys-color-primary: #A8E96A;
+  --md-sys-color-on-primary: #1A3300;
+  --md-sys-color-primary-container: #2F5410;
+  --md-sys-color-on-primary-container: #C4F58A;
+
+  --md-sys-color-secondary: #C2CBAF;
+  --md-sys-color-on-secondary: #2C3421;
+  --md-sys-color-secondary-container: #424B36;
+  --md-sys-color-on-secondary-container: #DEE7CB;
+
+  --md-sys-color-tertiary: #D7BDB3;
+  --md-sys-color-on-tertiary: #3B2B26;
+  --md-sys-color-tertiary-container: #5A423B;
+  --md-sys-color-on-tertiary-container: #F3E3DC;
+
+  --md-sys-color-surface: #12140D;
+  --md-sys-color-surface-container: #1E2118;
+  --md-sys-color-surface-container-high: #282B21;
+  --md-sys-color-on-surface: #E3E4D8;
+  --md-sys-color-on-surface-variant: #C6C9BA;
+
+  --md-sys-color-outline: #909485;
+  --md-sys-color-outline-variant: #44483D;
+
+  --md-sys-color-error: #FFB4AB;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000A;
+  --md-sys-color-on-error-container: #FFDAD6;
+
+  --pp-status-safe: #8AD99A;
+  --pp-on-status-safe: #00390F;
+  --pp-status-stale: #FFB595;
+  --pp-on-status-stale: #3A1000;
+  --pp-status-offline: #A9ACA6;
+  --pp-on-status-offline: #1B1C19;
+  --pp-map-tint: #22261A;
+  --pp-map-zone: #2F5410;
+}

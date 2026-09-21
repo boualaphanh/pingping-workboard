@@ -1,0 +1,526 @@
+{
+  "generated": "2026-09-21",
+  "source": "workboard/proto",
+  "spec": "docs/superpowers/specs/20260921-ui-prototype-design.md",
+  "benchmark": "20260921 PingPing UI Benchmark — Find My Kids.md",
+  "navigation": {
+    "parent": [
+      "map",
+      "growth",
+      "family"
+    ],
+    "note": "PR-7: the map is the Parent home screen; alerts are an icon on it, not a tab."
+  },
+  "screens": [
+    {
+      "id": "K01",
+      "app": "kids",
+      "title": "K01 · Pairing",
+      "features": "B5 — the child enters the code their parent is holding, or scans the square",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_continue",
+        "common_retry",
+        "k01_code_label",
+        "k01_empty_body",
+        "k01_empty_title",
+        "k01_error_body",
+        "k01_error_title",
+        "k01_joining",
+        "k01_lede",
+        "k01_scan",
+        "k01_title",
+        "p05_code_label"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "K02",
+      "app": "kids",
+      "title": "K02 · Kids Home",
+      "features": "B1 Kids app home · A4.1 SOS button, press and hold E7 transparency — the child sees exactly what a parent can and cannot see",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "k02_coins",
+        "k02_empty_action",
+        "k02_empty_body",
+        "k02_empty_title",
+        "k02_error_body",
+        "k02_error_title",
+        "k02_missions",
+        "k02_nav_home",
+        "k02_nav_messages",
+        "k02_nav_missions",
+        "k02_nav_wallet",
+        "k02_see_no",
+        "k02_see_title",
+        "k02_see_yes",
+        "k02_sos",
+        "k02_sos_hold",
+        "k02_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "K03",
+      "app": "kids",
+      "title": "K03 · SOS countdown",
+      "features": "A4.2 — a countdown the child can cancel, so a pocket press is not an emergency",
+      "states": [
+        "ok",
+        "error"
+      ],
+      "strings": [
+        "k03_body",
+        "k03_cancel",
+        "k03_count",
+        "k03_error_body",
+        "k03_error_title",
+        "k03_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "K08",
+      "app": "kids",
+      "title": "K08 · Settings",
+      "features": "A11 battery, B6 permissions the child can see and fix, study mode, and a link back to E7 transparency — what the parents can see",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_allow",
+        "common_retry",
+        "k02_empty_action",
+        "k02_nav_home",
+        "k02_nav_missions",
+        "k02_nav_wallet",
+        "k08_battery",
+        "k08_battery_tip",
+        "k08_empty_body",
+        "k08_empty_title",
+        "k08_error_body",
+        "k08_error_title",
+        "k08_permissions",
+        "k08_see",
+        "k08_study",
+        "k08_study_body",
+        "k08_title",
+        "p20_check_ok"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "K09",
+      "app": "kids",
+      "title": "K09 · Loud Signal",
+      "features": "A5.2 the alarm plays at full volume through silent mode A5.3 the child stops it, and that acknowledgement goes back to the parent",
+      "states": [
+        "ok",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "k02_error_body",
+        "k02_error_title",
+        "k09_body",
+        "k09_stop",
+        "k09_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P01",
+      "app": "parent",
+      "title": "P01 · Splash",
+      "features": "— (the app deciding where to send you)",
+      "states": [
+        "ok"
+      ],
+      "strings": [
+        "common_app_name",
+        "p01_tagline"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P02",
+      "app": "parent",
+      "title": "P02 · Sign in",
+      "features": "E1 Auth — phone plus a six-digit code, no password",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p02_code_label",
+        "p02_empty_body",
+        "p02_empty_title",
+        "p02_error_body",
+        "p02_error_title",
+        "p02_lede",
+        "p02_phone_hint",
+        "p02_phone_label",
+        "p02_resend",
+        "p02_send_code",
+        "p02_terms",
+        "p02_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P04",
+      "app": "parent",
+      "title": "P04 · Add child",
+      "features": "E3 multi-child — the name the family sees, the age band the content uses",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p04_age_label",
+        "p04_empty_body",
+        "p04_empty_title",
+        "p04_error_body",
+        "p04_error_title",
+        "p04_lede",
+        "p04_name_hint",
+        "p04_name_label",
+        "p04_photo",
+        "p04_save",
+        "p04_title"
+      ],
+      "fixturePaths": [
+        "family01.children.0"
+      ]
+    },
+    {
+      "id": "P05",
+      "app": "parent",
+      "title": "P05 · Pair device",
+      "features": "B5 pairing by code or square. The code shape is prototype-local: the contract has not fixed one yet, so fixtures/seed.js marks it as a placeholder.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_copy",
+        "common_retry",
+        "common_share",
+        "p05_code_label",
+        "p05_empty_body",
+        "p05_empty_title",
+        "p05_error_body",
+        "p05_error_title",
+        "p05_expires",
+        "p05_lede",
+        "p05_new_code",
+        "p05_step_1",
+        "p05_step_2",
+        "p05_step_3",
+        "p05_title",
+        "p05_waiting"
+      ],
+      "fixturePaths": [
+        "pairing.code"
+      ]
+    },
+    {
+      "id": "P06",
+      "app": "parent",
+      "title": "P06 · Permissions",
+      "features": "A1 location-always, A11 battery reporting, notifications for A4",
+      "states": [
+        "ok",
+        "error"
+      ],
+      "strings": [
+        "common_allow",
+        "common_allowed",
+        "common_continue",
+        "p06_error_body",
+        "p06_error_title",
+        "p06_lede",
+        "p06_loc_title",
+        "p06_loc_why",
+        "p06_notif_title",
+        "p06_notif_why",
+        "p06_open_settings",
+        "p06_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P09",
+      "app": "parent",
+      "title": "P09 · SOS Alert Detail",
+      "features": "A4.2 SOS detail with position and time · A4.4 whole family notified A11 battery at the moment of the alert · AD3 Emergency Card reachable from here",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_back",
+        "common_retry",
+        "p09_accuracy",
+        "p09_allergies",
+        "p09_allergies_value",
+        "p09_battery_at_alert",
+        "p09_blood_type",
+        "p09_call_child",
+        "p09_contact",
+        "p09_contact_value",
+        "p09_emergency_card",
+        "p09_empty_body",
+        "p09_empty_title",
+        "p09_error_body",
+        "p09_error_title",
+        "p09_headline",
+        "p09_notified",
+        "p09_resolve",
+        "p09_title",
+        "p09_when",
+        "p09_where"
+      ],
+      "fixturePaths": [
+        "sosAlert.emergencyCard.bloodType"
+      ]
+    },
+    {
+      "id": "P10",
+      "app": "parent",
+      "title": "P10 · Live Map",
+      "features": "A1.1 every child on one map, each with their own face and label A1.3 request location now · A1.5 accuracy, source and freshness A11 battery, shown on the marker itself · A2 saved places (S2) already drawn",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_battery",
+        "common_nav_family_tab",
+        "common_nav_growth_tab",
+        "common_nav_map",
+        "common_offline",
+        "common_retry",
+        "p10_accuracy",
+        "p10_child_count",
+        "p10_empty_body",
+        "p10_empty_title",
+        "p10_error_body",
+        "p10_error_title",
+        "p10_family_switch",
+        "p10_last_fix",
+        "p10_open_profile",
+        "p10_quick_history",
+        "p10_quick_loud",
+        "p10_refresh",
+        "p10_sheet_family",
+        "p10_silent",
+        "p10_sos_banner",
+        "p10_sos_banner_where"
+      ],
+      "fixturePaths": [
+        "family01.children.0"
+      ]
+    },
+    {
+      "id": "P11",
+      "app": "parent",
+      "title": "P11 · Location history",
+      "features": "A1.4 daily timeline with stop points and how long each one lasted Retention: 30 days free / 90 days premium (Feature Breakdown A1)",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p11_arrive",
+        "p11_day",
+        "p11_distance",
+        "p11_empty_body",
+        "p11_empty_title",
+        "p11_error_body",
+        "p11_error_title",
+        "p11_retention",
+        "p11_stay",
+        "p11_stops",
+        "p11_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P20",
+      "app": "parent",
+      "title": "P20 · Devices and battery",
+      "features": "B6 device health, B6.2 the permission checklist the parent can actually read A11 battery per device. Family 03's first child carries a phone and a watch.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_battery",
+        "common_retry",
+        "p05_title",
+        "p20_checklist",
+        "p20_empty_body",
+        "p20_empty_title",
+        "p20_error_body",
+        "p20_error_title",
+        "p20_primary",
+        "p20_synced",
+        "p20_title"
+      ],
+      "fixturePaths": [
+        "family03.firstChild"
+      ]
+    },
+    {
+      "id": "P27",
+      "app": "parent",
+      "title": "P27 · Child profile",
+      "features": "E3 multi-child — the one place that gathers a child's devices, zones and card A5 loud signal and AD3 emergency card are reached from here (PR-7 removed the hub)",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_battery",
+        "common_retry",
+        "p05_title",
+        "p07_chip_at_school",
+        "p10_quick_history",
+        "p10_quick_loud",
+        "p27_age",
+        "p27_devices",
+        "p27_devices_row",
+        "p27_emergency",
+        "p27_empty_body",
+        "p27_empty_title",
+        "p27_error_body",
+        "p27_error_title",
+        "p27_remove",
+        "p27_title",
+        "p27_zones",
+        "p27_zones_row"
+      ],
+      "fixturePaths": [
+        "family01.children.0"
+      ]
+    },
+    {
+      "id": "P28",
+      "app": "parent",
+      "title": "P28 · Family and roles",
+      "features": "E4 roles — owner, co-parent, guardian — and what each one may see. The pending invite uses the seed's own code shape, PP<NN>GUARD.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p28_empty_body",
+        "p28_empty_title",
+        "p28_error_body",
+        "p28_error_title",
+        "p28_invite",
+        "p28_pending_code",
+        "p28_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P31",
+      "app": "parent",
+      "title": "P31 · Emergency card",
+      "features": "AD3 — what a responder needs in the first minute. Gap G-03.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p09_allergies_value",
+        "p31_allergies",
+        "p31_blood",
+        "p31_conditions",
+        "p31_conditions_value",
+        "p31_contacts",
+        "p31_empty_body",
+        "p31_empty_title",
+        "p31_error_body",
+        "p31_error_title",
+        "p31_fill",
+        "p31_lede",
+        "p31_title"
+      ],
+      "fixturePaths": [
+        "emergencyCard.bloodType",
+        "family01.children.0"
+      ]
+    },
+    {
+      "id": "P34",
+      "app": "parent",
+      "title": "P34 · Loud Signal",
+      "features": "A5.1 send from the parent app · A5.2 full volume for 30 s, through silent A5.3 the child stops it, and the parent is told they did",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_cancel",
+        "common_retry",
+        "p10_quick_call",
+        "p34_error_body",
+        "p34_error_title",
+        "p34_lede",
+        "p34_limit",
+        "p34_limit_body",
+        "p34_limit_reached",
+        "p34_send",
+        "p34_sending",
+        "p34_title"
+      ],
+      "fixturePaths": [
+        "family01.children.1"
+      ]
+    }
+  ]
+}

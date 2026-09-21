@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P28 Family Members & Roles
+     Features: E4 roles — owner, co-parent, guardian — and what each one may see.
+               The pending invite uses the seed's own code shape, PP<NN>GUARD.
+     States: loading · empty (only the owner) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P28 · Family and roles</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p28_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <section class="pp-card">
+        <div class="pp-list" id="p28List"></div>
+      </section>
+      <md-filled-button data-i18n="p28_invite"></md-filled-button>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:64px;width:100%"></div>
+      <div class="pp-skel" style="height:64px;width:100%"></div>
+      <div class="pp-skel" style="height:64px;width:100%"></div>
+      <div class="pp-skel" style="height:40px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">group_add</span>
+        <h2 class="pp-title" data-i18n="p28_empty_title"></h2>
+        <p data-i18n="p28_empty_body"></p>
+        <md-filled-button data-i18n="p28_invite" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p28_error_title"></h2>
+        <p data-i18n="p28_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function render() {
+    var box = document.getElementById("p28List");
+    if (!box) return;
+    var lang = document.body.getAttribute("data-lang");
+    box.innerHTML = "";
+    window.PP_SEED.members.forEach(function (m) {
+      var el = document.createElement("div");
+      el.className = "pp-list-item";
+      var name = lang === "lo" ? m.lo : m.latin;
+      el.innerHTML =
+        '<span class="pp-avatar" data-size="sm">' + Array.from(name)[0] + "</span>" +
+        '<span class="pp-col pp-grow">' +
+          '<span style="font-weight:600">' + name + "</span>" +
+          '<span class="pp-label">' + window.PP.t(m.canKey) + "</span>" +
+          (m.pending
+            ? '<span class="pp-label pp-num">' + window.PP.t("p28_pending_code", { code: m.code }) + "</span>"
+            : "") +
+        "</span>" +
+        '<span class="pp-chip"' + (m.pending ? ' data-status="stale"' : "") + ">" +
+          window.PP.t(m.pending ? "p28_pending" : m.roleKey) + "</span>";
+      box.appendChild(el);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

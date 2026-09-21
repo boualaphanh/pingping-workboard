@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P34 Loud Signal
+     Features: A5.1 send from the parent app · A5.2 full volume for 30 s, through silent
+               A5.3 the child stops it, and the parent is told they did
+     A5 was moved into MVP-S1 on 2026-09-21. With the three-tab navigation there is no
+     Security Hub, so the entry point is the map sheet and the child profile.
+     States: ok (ready) · loading (ringing) · empty (no signals left in the window) · error -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P34 · Loud Signal</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p34-dial {
+    width: 176px; height: 176px; border-radius: 50%;
+    margin: var(--pp-s5) auto var(--pp-s3);
+    display: flex; align-items: center; justify-content: center;
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    position: relative;
+  }
+  .p34-dial .pp-icon { font-size: 68px; }
+  .p34-dial[data-live]::after {
+    content: ""; position: absolute; inset: -10px; border-radius: 50%;
+    background: var(--md-sys-color-primary); opacity: .2;
+    animation: pp-pulse 1.6s ease-out infinite;
+  }
+  .p34-dial[data-done] { background: var(--pp-status-safe); color: var(--pp-on-status-safe); }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p34_title"></span>
+  </header>
+
+  <main class="pp-content">
+
+    <!-- ok ------------------------------------------------------------------>
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="p34-dial"><span class="pp-icon" data-fill>volume_up</span></div>
+
+      <div class="pp-row" style="justify-content:center">
+        <span class="pp-avatar" data-size="sm" data-nm-initial="family01.children.1"></span>
+        <span class="pp-title" data-nm="family01.children.1"></span>
+      </div>
+
+      <p class="pp-label" style="text-align:center"
+         data-i18n="p34_lede" data-i18n-args="name:#family01.children.1"></p>
+
+      <md-filled-button data-i18n="p34_send"></md-filled-button>
+
+      <div class="pp-row" style="justify-content:center">
+        <span class="pp-chip pp-num" data-i18n="p34_limit"></span>
+      </div>
+    </div>
+
+    <!-- loading — the signal is playing on the child's phone right now ------->
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)" aria-busy="true">
+      <div class="p34-dial" data-live><span class="pp-icon" data-fill>volume_up</span></div>
+      <p class="pp-title" style="text-align:center"
+         data-i18n="p34_sending" data-i18n-args="name:#family01.children.1"></p>
+      <div class="pp-card">
+        <div class="pp-row">
+          <span class="pp-icon">hourglass_top</span>
+          <span class="pp-grow pp-num" data-i18n="p34_limit"></span>
+        </div>
+      </div>
+      <md-outlined-button data-i18n="common_cancel"></md-outlined-button>
+    </div>
+
+    <!-- empty — the rate limit is spent (A5: 3 per 10 minutes) --------------->
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column">
+      <div class="pp-figure">
+        <span class="pp-icon">volume_off</span>
+        <h2 class="pp-title" data-i18n="p34_limit_reached"></h2>
+        <p data-i18n="p34_limit_body"></p>
+        <md-filled-button style="margin-top:var(--pp-s2)">
+          <span class="pp-icon" slot="icon">call</span>
+          <span data-i18n="p10_quick_call"></span>
+        </md-filled-button>
+      </div>
+    </div>
+
+    <!-- error --------------------------------------------------------------->
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">phonelink_erase</span>
+        <h2 class="pp-title" data-i18n="p34_error_title"></h2>
+        <p data-i18n="p34_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

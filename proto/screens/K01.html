@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     K01 Pairing, on the child's phone
+     Features: B5 — the child enters the code their parent is holding, or scans the square
+     States: loading (joining) · empty (no code yet) · error (wrong or expired) · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>K01 · Pairing</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  md-outlined-text-field { width: 100%; }
+  .k01 { padding-top: var(--pp-s6); }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="kids" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <main class="pp-content k01">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <span class="pp-brandmark" style="width:64px;height:64px;border-radius:22px;font-size:30px;align-self:center"></span>
+      <h1 class="pp-display" style="text-align:center" data-i18n="k01_title"></h1>
+      <p class="pp-label" style="text-align:center" data-i18n="k01_lede"></p>
+      <md-outlined-text-field data-i18n-attr="label:k01_code_label,placeholder:p05_code_label"></md-outlined-text-field>
+      <md-filled-button data-i18n="common_continue"></md-filled-button>
+      <md-text-button data-i18n="k01_scan"></md-text-button>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <md-circular-progress indeterminate style="align-self:center"></md-circular-progress>
+      <p class="pp-title" style="text-align:center" data-i18n="k01_joining"></p>
+      <div class="pp-skel" style="height:11px;width:60%"></div>
+      <div class="pp-skel" style="height:11px;width:44%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">key_off</span>
+        <h2 class="pp-title" data-i18n="k01_empty_title"></h2>
+        <p data-i18n="k01_empty_body"></p>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">timer_off</span>
+        <h2 class="pp-title" data-i18n="k01_error_title"></h2>
+        <p data-i18n="k01_error_body"></p>
+        <md-filled-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P27 Child Profile
+     Features: E3 multi-child — the one place that gathers a child's devices, zones and card
+               A5 loud signal and AD3 emergency card are reached from here (PR-7 removed the hub)
+     States: loading · empty (profile with no device) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P27 · Child profile</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p27-hero { display: flex; flex-direction: column; align-items: center; gap: var(--pp-s2);
+              padding: var(--pp-s4) 0 var(--pp-s2); text-align: center; }
+  .p27-face { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; }
+  .p27-face > svg { width: 100%; height: 100%; }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p27_title"></span>
+    <button class="pp-touch" aria-label="Edit"><span class="pp-icon">edit</span></button>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="p27-hero">
+        <span class="p27-face" data-avatar="family01.children.0"></span>
+        <span class="pp-display" data-nm="family01.children.0"></span>
+        <span class="pp-label pp-num" data-i18n="p27_age" data-i18n-args="n:@family01.children.0.age"></span>
+      </div>
+      <div class="pp-chips" style="justify-content:center">
+        <span class="pp-chip" data-status="safe"><span data-i18n="p07_chip_at_school"></span></span>
+        <span class="pp-chip pp-num" data-i18n="common_battery" data-i18n-args="n:@family01.children.0.battery"></span>
+      </div>
+      <section class="pp-card">
+        <div class="pp-list">
+          <div class="pp-list-item">
+            <span class="pp-icon">volume_up</span>
+            <span class="pp-grow" data-i18n="p10_quick_loud"></span>
+            <span class="pp-icon">chevron_right</span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-icon">medical_information</span>
+            <span class="pp-grow" data-i18n="p27_emergency"></span>
+            <span class="pp-icon">chevron_right</span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-icon">history</span>
+            <span class="pp-grow" data-i18n="p10_quick_history"></span>
+            <span class="pp-icon">chevron_right</span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-icon">devices</span>
+            <span class="pp-grow" data-i18n="p27_devices_row"></span>
+            <span class="pp-chip pp-num" data-i18n="p27_devices" data-i18n-args="n:1"></span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-icon">fence</span>
+            <span class="pp-grow" data-i18n="p27_zones_row"></span>
+            <span class="pp-chip pp-num" data-i18n="p27_zones" data-i18n-args="n:2"></span>
+          </div>
+        </div>
+      </section>
+      <md-text-button data-i18n="p27_remove" style="--md-text-button-label-text-color:var(--md-sys-color-error)"></md-text-button>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="width:96px;height:96px;border-radius:50%;align-self:center"></div>
+      <div class="pp-skel" style="height:16px;width:44%"></div>
+      <div class="pp-skel" style="height:11px;width:30%"></div>
+      <div class="pp-skel" style="height:220px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">person_off</span>
+        <h2 class="pp-title" data-i18n="p27_empty_title"></h2>
+        <p data-i18n="p27_empty_body"></p>
+        <md-filled-button data-i18n="p05_title" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p27_error_title"></h2>
+        <p data-i18n="p27_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

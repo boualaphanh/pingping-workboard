@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P02 Login / Register (OTP)
+     Features: E1 Auth — phone plus a six-digit code, no password
+     States: loading · empty (no number entered yet) · error (wrong or expired code) · ok
+     Nothing typed here is stored or sent anywhere. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P02 · Sign in</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p02-hero { display: flex; flex-direction: column; gap: var(--pp-s2); padding: var(--pp-s6) 0 var(--pp-s5); }
+  .p02-mark { width: 56px; height: 56px; border-radius: 18px; font-size: 26px; }
+  .p02-form { display: flex; flex-direction: column; gap: var(--pp-s4); }
+  md-outlined-text-field { width: 100%; }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <main class="pp-content" style="justify-content:flex-start">
+
+    <div class="p02-hero">
+      <span class="pp-brandmark p02-mark">P</span>
+      <h1 class="pp-display" data-i18n="p02_title"></h1>
+      <p class="pp-label" data-i18n="p02_lede"></p>
+    </div>
+
+    <!-- ok ------------------------------------------------------------------>
+    <div data-state-view="ok" class="pp-flex p02-form">
+      <md-outlined-text-field type="tel" data-i18n-attr="label:p02_phone_label,placeholder:p02_phone_hint"></md-outlined-text-field>
+      <md-outlined-text-field type="text" inputmode="numeric" maxlength="6" data-i18n-attr="label:p02_code_label"></md-outlined-text-field>
+      <md-filled-button data-i18n="p02_send_code"></md-filled-button>
+      <p class="pp-label pp-num" data-i18n="p02_resend" data-i18n-args="n:42"></p>
+      <div class="pp-hairline"></div>
+      <p class="pp-label" data-i18n="p02_terms"></p>
+    </div>
+
+    <!-- loading --------------------------------------------------------------->
+    <div data-state-view="loading" class="pp-flex p02-form" aria-busy="true">
+      <div class="pp-skel" style="height:56px"></div>
+      <div class="pp-skel" style="height:56px"></div>
+      <div class="pp-skel" style="height:40px"></div>
+      <div class="pp-skel" style="height:11px;width:56%"></div>
+    </div>
+
+    <!-- empty — no number entered yet -------------------------------------->
+    <div data-state-view="empty" class="pp-flex p02-form">
+      <md-outlined-text-field type="tel" data-i18n-attr="label:p02_phone_label,placeholder:p02_phone_hint"></md-outlined-text-field>
+      <div class="pp-figure" style="padding-top:var(--pp-s4)">
+        <span class="pp-icon">dialpad</span>
+        <h2 class="pp-title" data-i18n="p02_empty_title"></h2>
+        <p data-i18n="p02_empty_body"></p>
+      </div>
+    </div>
+
+    <!-- error — wrong or expired code ---------------------------------------->
+    <div data-state-view="error" class="pp-flex p02-form">
+      <md-outlined-text-field type="tel" value="+856 20 5555 0001"
+                              data-i18n-attr="label:p02_phone_label"></md-outlined-text-field>
+      <md-outlined-text-field type="text" inputmode="numeric" maxlength="6" value="004512" error
+                              data-i18n-attr="label:p02_code_label,error-text:p02_error_title"></md-outlined-text-field>
+      <div class="pp-card" data-tone="error">
+        <div class="pp-row">
+          <span class="pp-icon">timer_off</span>
+          <div class="pp-col pp-grow">
+            <span style="font-weight:600" data-i18n="p02_error_title"></span>
+            <span class="pp-label" style="color:inherit;opacity:.9" data-i18n="p02_error_body"></span>
+          </div>
+        </div>
+      </div>
+      <md-filled-button data-i18n="common_retry"></md-filled-button>
+    </div>
+
+  </main>
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

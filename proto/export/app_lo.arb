@@ -1,0 +1,520 @@
+{
+  "@@locale": "lo",
+  "common_app_name": "PingPing",
+  "common_back": "ກັບຄືນ",
+  "common_close": "ປິດ",
+  "common_retry": "ລອງໃໝ່",
+  "common_cancel": "ຍົກເລີກ",
+  "common_loading": "ກຳລັງໂຫຼດ…",
+  "common_nav_home": "ໜ້າຫຼັກ",
+  "common_nav_map": "ແຜນທີ່",
+  "common_nav_safety": "ຄວາມປອດໄພ",
+  "common_nav_growth": "ການເຕີບໂຕ",
+  "common_nav_family": "ຄອບຄົວ",
+  "common_proto_badge": "ຕົ້ນແບບ · ຂໍ້ມູນຈຳລອງ · ບໍ່ໄດ້ເຊື່ອມຕໍ່",
+  "common_minutes_ago": "ອັບເດດ {n} ນາທີກ່ອນ",
+  "@common_minutes_ago": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "common_battery": "ແບັດເຕີຣີ {n}%",
+  "@common_battery": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "common_offline": "ໂທລະສັບປິດຢູ່",
+  "common_no_permission": "ປິດການໃຊ້ຕຳແໜ່ງໄວ້",
+  "p02_title": "ເຂົ້າສູ່ລະບົບ",
+  "p02_lede": "ພວກເຮົາຈະສົ່ງລະຫັດ 6 ໂຕເລກໄປໂທລະສັບຂອງທ່ານ ບໍ່ຕ້ອງຈື່ລະຫັດຜ່ານ",
+  "p02_phone_label": "ເບີໂທລະສັບ",
+  "p02_phone_hint": "+856 20 5555 0001",
+  "p02_send_code": "ສົ່ງລະຫັດ",
+  "p02_code_label": "ລະຫັດ 6 ໂຕເລກ",
+  "p02_resend": "ສົ່ງລະຫັດໃໝ່ໄດ້ໃນ {n} ວິນາທີ",
+  "@p02_resend": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p02_terms": "ການສືບຕໍ່ ໝາຍຄວາມວ່າທ່ານຍອມຮັບເງື່ອນໄຂຂໍ້ມູນຄອບຄົວ",
+  "p02_error_title": "ລະຫັດນີ້ໃຊ້ບໍ່ໄດ້",
+  "p02_error_body": "ລະຫັດໝົດອາຍຸພາຍໃນ 5 ນາທີ ກະລຸນາຂໍລະຫັດໃໝ່",
+  "p02_empty_title": "ຍັງບໍ່ມີເບີໂທ",
+  "p02_empty_body": "ໃສ່ເບີທີ່ທ່ານຢາກໃຊ້ສຳລັບບັນຊີຄອບຄົວນີ້",
+  "p07_title": "ໜ້າຫຼັກ",
+  "p07_greeting": "ສະບາຍດີຕອນເຊົ້າ",
+  "p07_chip_at_school": "ຢູ່ໂຮງຮຽນ",
+  "p07_chip_at_home": "ຢູ່ເຮືອນ",
+  "p07_chip_moving": "ກຳລັງເດີນທາງ",
+  "p07_request_location": "ຂໍຕຳແໜ່ງດຽວນີ້",
+  "p07_see_map": "ເປີດແຜນທີ່",
+  "p07_empty_title": "ຍັງບໍ່ມີລູກໃນຄອບຄົວ",
+  "p07_empty_body": "ເພີ່ມລູກຂອງທ່ານ ແລ້ວຈັບຄູ່ກັບອຸປະກອນທີ່ລູກຖືໄປ",
+  "p07_empty_action": "ເພີ່ມລູກ",
+  "p07_error_title": "ໂຫຼດຂໍ້ມູນຄອບຄົວບໍ່ໄດ້",
+  "p07_error_body": "ນີ້ແມ່ນຂໍ້ມູນຫຼ້າສຸດທີ່ມີ ລາກລົງເພື່ອໂຫຼດໃໝ່ ຫຼື ກົດລອງໃໝ່",
+  "p07_alert_sos": "{name} ກົດ SOS",
+  "@p07_alert_sos": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p07_alert_sos_where": "ຖະໜົນໜອງບອນ · 1 ນາທີກ່ອນ",
+  "p07_alert_open": "ເປີດ",
+  "p09_title": "ແຈ້ງເຕືອນ SOS",
+  "p09_headline": "{name} ກົດ SOS",
+  "@p09_headline": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p09_when": "ມື້ນີ້ 09:41 · 1 ນາທີກ່ອນ",
+  "p09_where": "ຖະໜົນໜອງບອນ, ນະຄອນຫຼວງວຽງຈັນ",
+  "p09_accuracy": "ຄວາມແມ່ນຍຳ 12 ແມັດ · GPS",
+  "p09_battery_at_alert": "ແບັດຕອນແຈ້ງເຕືອນ {n}%",
+  "@p09_battery_at_alert": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p09_call_child": "ໂທຫາ {name}",
+  "@p09_call_child": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p09_emergency_card": "ບັດສຸກເສີນ",
+  "p09_blood_type": "ກຣຸບເລືອດ",
+  "p09_allergies": "ການແພ້ຢາ",
+  "p09_allergies_value": "ເພນິຊິລິນ",
+  "p09_contact": "ຜູ້ຕິດຕໍ່ສຸກເສີນ",
+  "p09_contact_value": "ປ້ານ້ອຍ · +856 20 5551 0001",
+  "p09_notified": "ແຈ້ງທຸກຄົນໃນຄອບຄົວແລ້ວ",
+  "p09_resolve": "ໝາຍວ່າແກ້ໄຂແລ້ວ",
+  "p09_empty_title": "ແຈ້ງເຕືອນນີ້ຖືກປິດແລ້ວ",
+  "p09_empty_body": "ສະມາຊິກຄອບຄົວຄົນອື່ນແກ້ໄຂແລ້ວ ຈຶ່ງບໍ່ມີສິ່ງທີ່ຕ້ອງເຮັດ",
+  "p09_error_title": "ໂຫຼດແຈ້ງເຕືອນບໍ່ໄດ້",
+  "p09_error_body": "ແຈ້ງເຕືອນມີຢູ່ ແຕ່ລາຍລະອຽດໂຫຼດບໍ່ສຳເລັດ",
+  "p10_title": "ແຜນທີ່ສົດ",
+  "p10_all_children": "ລູກທຸກຄົນ",
+  "p10_last_fix": "ຕຳແໜ່ງຫຼ້າສຸດ {n} ນາທີກ່ອນ",
+  "@p10_last_fix": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p10_accuracy": "ຄວາມແມ່ນຍຳ {n} ແມັດ",
+  "@p10_accuracy": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p10_source_gps": "GPS",
+  "p10_source_wifi": "Wi-Fi",
+  "p10_source_cell": "ເສົາສັນຍານ",
+  "p10_refresh": "ຂໍຕຳແໜ່ງດຽວນີ້",
+  "p10_history": "ປະຫວັດຕຳແໜ່ງ",
+  "p10_empty_title": "ຍັງບໍ່ມີຕຳແໜ່ງ",
+  "p10_empty_body": "ອຸປະກອນຍັງບໍ່ໄດ້ສົ່ງຕຳແໜ່ງມາເລີຍຕັ້ງແຕ່ຈັບຄູ່",
+  "p10_error_title": "ໂຫຼດແຜນທີ່ບໍ່ໄດ້",
+  "p10_error_body": "ສະແດງຕຳແໜ່ງຫຼ້າສຸດເປັນສີເທົາ ອາດບໍ່ທັນສະໄໝ",
+  "k02_title": "ສະບາຍດີ {name}",
+  "@k02_title": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "k02_sos": "SOS",
+  "k02_sos_hold": "ກົດຄ້າງ 3 ວິນາທີ",
+  "k02_see_title": "ສິ່ງທີ່ພໍ່ແມ່ເຫັນ",
+  "k02_see_yes": "ເຈົ້າຢູ່ໃສ ແລະ ແບັດເຕີຣີ",
+  "k02_see_no": "ບໍ່ເຫັນແຊັດ ບໍ່ເຫັນຮູບ",
+  "k02_missions": "ພາລະກິດມື້ນີ້ {done}/{total}",
+  "@k02_missions": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "k02_coins": "{n} ເຫຼຽນ",
+  "@k02_coins": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "k02_nav_home": "ໜ້າຫຼັກ",
+  "k02_nav_missions": "ພາລະກິດ",
+  "k02_nav_wallet": "ກະເປົາເງິນ",
+  "k02_nav_messages": "ຂໍ້ຄວາມ",
+  "k02_empty_title": "ຍັງບໍ່ໄດ້ຈັບຄູ່",
+  "k02_empty_body": "ຂໍລະຫັດຈັບຄູ່ຈາກພໍ່ແມ່ ແລ້ວໃສ່ລະຫັດຢູ່ນີ້",
+  "k02_empty_action": "ໃສ່ລະຫັດ",
+  "k02_error_title": "ຕິດຕໍ່ຄອບຄົວບໍ່ໄດ້",
+  "k02_error_body": "SOS ຍັງໃຊ້ໄດ້ ກົດຄ້າງໄວ້ ແລ້ວຈະສົ່ງເມື່ອມີສັນຍານ",
+  "common_dur_hm": "{h} ຊົ່ວໂມງ {m} ນາທີ",
+  "@common_dur_hm": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "common_dur_m": "{m} ນາທີ",
+  "@common_dur_m": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "p10_family_switch": "ຄອບຄົວ",
+  "p10_child_count": "ລູກ {n} ຄົນ",
+  "@p10_child_count": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p10_dwell_at_school": "ຢູ່ໂຮງຮຽນ · {dur}",
+  "@p10_dwell_at_school": {
+    "placeholders": {
+      "dur": {
+        "type": "String"
+      }
+    }
+  },
+  "p10_dwell_moving": "ກຳລັງເດີນທາງ · {dur}",
+  "@p10_dwell_moving": {
+    "placeholders": {
+      "dur": {
+        "type": "String"
+      }
+    }
+  },
+  "p10_dwell_last_seen": "ເຫັນຫຼ້າສຸດ {dur} ກ່ອນ",
+  "@p10_dwell_last_seen": {
+    "placeholders": {
+      "dur": {
+        "type": "String"
+      }
+    }
+  },
+  "p10_place_home": "ເຮືອນ",
+  "p10_place_school": "ໂຮງຮຽນ",
+  "p10_sheet_family": "ຄອບຄົວຂອງທ່ານ",
+  "p10_quick_ping": "ເອີ້ນ",
+  "p10_quick_call": "ໂທ",
+  "p10_quick_history": "ປະຫວັດ",
+  "p10_settings": "ຕັ້ງຄ່າ",
+  "p10_notifications": "ແຈ້ງເຕືອນ",
+  "p10_layers": "ຊັ້ນແຜນທີ່",
+  "p10_recenter": "ກັບມາກາງ",
+  "p10_silent": "ໂທລະສັບປິດສຽງ",
+  "p10_open_profile": "ເປີດໂປຣໄຟລ໌",
+  "common_nav_growth_tab": "ການເຕີບໂຕ",
+  "common_nav_family_tab": "ຄອບຄົວ",
+  "p10_sos_banner": "{name} ກົດ SOS",
+  "@p10_sos_banner": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p10_sos_banner_where": "ຖະໜົນໜອງບອນ · 1 ນາທີກ່ອນ",
+  "p10_quick_loud": "ສົ່ງສຽງດັງ",
+  "p34_title": "ສົ່ງສຽງດັງ",
+  "p34_lede": "ໂທລະສັບຂອງ {name} ຈະດັງສຸດ 30 ວິນາທີ ເຖິງຈະປິດສຽງໄວ້ກໍຕາມ",
+  "@p34_lede": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p34_send": "ສົ່ງສຽງດັງ",
+  "p34_sending": "ກຳລັງໃຫ້ໂທລະສັບຂອງ {name} ດັງ…",
+  "@p34_sending": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p34_ack": "{name} ກົດຢຸດສຽງແລ້ວ",
+  "@p34_ack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p34_ack_note": "ລູກຮູ້ແລ້ວວ່າທ່ານກຳລັງຕາມຫາ",
+  "p34_limit": "ສົ່ງໄດ້ 3 ຄັ້ງ ຕໍ່ 10 ນາທີ",
+  "p34_limit_reached": "ໃຊ້ຄົບ 3 ຄັ້ງແລ້ວ",
+  "p34_limit_body": "ລໍຖ້າອີກໜ້ອຍໜຶ່ງ ຫຼື ໂທຫາແທນ ສຽງເຕືອນທີ່ດັງຊ້ຳໆ ຈະບໍ່ເປັນສຽງເຕືອນອີກຕໍ່ໄປ",
+  "p34_error_title": "ສົ່ງສັນຍານບໍ່ສຳເລັດ",
+  "p34_error_body": "ຕິດຕໍ່ໂທລະສັບບໍ່ໄດ້ ສັນຍານຈະດັງທັນທີທີ່ເຄື່ອງກັບມາອອນລາຍ",
+  "k09_title": "ພໍ່ແມ່ກຳລັງຕາມຫາເຈົ້າ",
+  "k09_body": "ກົດເພື່ອຢຸດສຽງ ແລະ ບອກໃຫ້ເຂົາຮູ້ວ່າເຈົ້າສະບາຍດີ",
+  "k09_stop": "ຢຸດສຽງ",
+  "k09_stopped": "ເຂົາຮູ້ແລ້ວວ່າເຈົ້າສະບາຍດີ",
+  "common_save": "ບັນທຶກ",
+  "common_edit": "ແກ້ໄຂ",
+  "common_done": "ແລ້ວ",
+  "common_continue": "ສືບຕໍ່",
+  "common_allow": "ອະນຸຍາດ",
+  "common_allowed": "ອະນຸຍາດແລ້ວ",
+  "common_copy": "ສຳເນົາ",
+  "common_copied": "ສຳເນົາແລ້ວ",
+  "common_share": "ແບ່ງປັນ",
+  "common_today": "ມື້ນີ້",
+  "p01_tagline": "ຄອບຄົວຂອງທ່ານ ຢູ່ໃນແຜນທີ່ດຽວ",
+  "p04_title": "ເພີ່ມລູກຂອງທ່ານ",
+  "p04_lede": "ຊື່ນີ້ຄົນໃນຄອບຄົວຈະເຫັນ ປ່ຽນພາຍຫຼັງໄດ້",
+  "p04_name_label": "ຊື່ລູກ",
+  "p04_name_hint": "ຕົ້ນ",
+  "p04_age_label": "ອາຍຸ",
+  "p04_photo": "ເລືອກຮູບ",
+  "p04_save": "ບັນທຶກ ແລ້ວຈັບຄູ່ອຸປະກອນ",
+  "p04_empty_title": "ຍັງບໍ່ມີຫຍັງໃຫ້ບັນທຶກ",
+  "p04_empty_body": "ໃສ່ຊື່ລູກກ່ອນຈຶ່ງສືບຕໍ່ໄດ້",
+  "p04_error_title": "ບັນທຶກບໍ່ສຳເລັດ",
+  "p04_error_body": "ຊື່ຍັງບໍ່ໄດ້ບັນທຶກ ຂໍ້ມູນບໍ່ເສຍ ລອງໃໝ່ໄດ້",
+  "p05_title": "ຈັບຄູ່ອຸປະກອນ",
+  "p05_lede": "ເປີດ PingPing Kids ໃນໂທລະສັບຂອງ {name} ແລ້ວໃສ່ລະຫັດນີ້ ຫຼື ສະແກນຮູບສີ່ຫຼ່ຽມ",
+  "@p05_lede": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p05_code_label": "ລະຫັດຈັບຄູ່",
+  "p05_expires": "ໝົດອາຍຸໃນ {n} ນາທີ",
+  "@p05_expires": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p05_step_1": "ຕິດຕັ້ງ PingPing Kids ໃນໂທລະສັບຂອງລູກ",
+  "p05_step_2": "ເປີດແອັບ ແລ້ວເລືອກ “ຂ້ອຍມີລະຫັດ”",
+  "p05_step_3": "ໃສ່ລະຫັດຂ້າງເທິງ",
+  "p05_waiting": "ກຳລັງລໍຖ້າອຸປະກອນ…",
+  "p05_empty_title": "ລະຫັດນີ້ໝົດອາຍຸແລ້ວ",
+  "p05_empty_body": "ລະຫັດໃຊ້ໄດ້ 10 ນາທີ ສ້າງລະຫັດໃໝ່ ແລ້ວລອງອີກ",
+  "p05_new_code": "ລະຫັດໃໝ່",
+  "p05_error_title": "ສ້າງລະຫັດບໍ່ໄດ້",
+  "p05_error_body": "ຍັງບໍ່ໄດ້ຈັບຄູ່ຫຍັງ ລອງໃໝ່ອີກບຶດໜຶ່ງ",
+  "p06_title": "ເຫຼືອອີກ 2 ການອະນຸຍາດ",
+  "p06_lede": "PingPing ຂໍພຽງສິ່ງທີ່ຈຳເປັນເພື່ອຕອບວ່າ ລູກຢູ່ໃສ",
+  "p06_loc_title": "ຕຳແໜ່ງ ຕະຫຼອດເວລາ",
+  "p06_loc_why": "ຖ້າບໍ່ມີ ແຜນທີ່ຈະວ່າງເປົ່າເມື່ອປິດແອັບ ເຊິ່ງແມ່ນເວລາສ່ວນໃຫຍ່",
+  "p06_notif_title": "ການແຈ້ງເຕືອນ",
+  "p06_notif_why": "SOS ທີ່ມາແບບງຽບໆ ບໍ່ແມ່ນ SOS",
+  "p06_error_title": "ປິດການໃຊ້ຕຳແໜ່ງໄວ້",
+  "p06_error_body": "ເປີດແອັບໄດ້ ແຕ່ແຜນທີ່ຈະວ່າງເປົ່າ ໃຫ້ເປີດໃນການຕັ້ງຄ່າ",
+  "p06_open_settings": "ເປີດການຕັ້ງຄ່າ",
+  "p11_title": "ປະຫວັດຕຳແໜ່ງ",
+  "p11_day": "ມື້ນີ້",
+  "p11_stops": "ຢຸດ {n} ບ່ອນ",
+  "@p11_stops": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p11_distance": "ເດີນທາງ {n} ກິໂລແມັດ",
+  "@p11_distance": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p11_arrive": "ມາຮອດ {time}",
+  "@p11_arrive": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "p11_stay": "ຢູ່ {dur}",
+  "@p11_stay": {
+    "placeholders": {
+      "dur": {
+        "type": "String"
+      }
+    }
+  },
+  "p11_empty_title": "ມື້ນີ້ຍັງບໍ່ມີບັນທຶກ",
+  "p11_empty_body": "ອຸປະກອນຍັງບໍ່ໄດ້ສົ່ງຕຳແໜ່ງມາຕັ້ງແຕ່ທ່ຽງຄືນ",
+  "p11_error_title": "ໂຫຼດປະຫວັດບໍ່ໄດ້",
+  "p11_error_body": "ບາງຊ່ວງຂອງມື້ນີ້ອາດຂາດໄປ ລອງໃໝ່",
+  "p11_retention": "ເກັບປະຫວັດໄວ້ 30 ມື້",
+  "p20_title": "ອຸປະກອນ ແລະ ແບັດເຕີຣີ",
+  "p20_phone": "ໂທລະສັບ",
+  "p20_watch": "ໂມງ",
+  "p20_primary": "ເຄື່ອງຫຼັກ",
+  "p20_synced": "ຊິ້ງຄ໌ເມື່ອ {dur} ກ່ອນ",
+  "@p20_synced": {
+    "placeholders": {
+      "dur": {
+        "type": "String"
+      }
+    }
+  },
+  "p20_checklist": "ກວດການອະນຸຍາດ",
+  "p20_check_location": "ຕຳແໜ່ງ ຕະຫຼອດເວລາ",
+  "p20_check_notif": "ການແຈ້ງເຕືອນ",
+  "p20_check_battery": "ປິດການປະຢັດແບັດ",
+  "p20_check_ok": "ເປີດ",
+  "p20_check_missing": "ຍັງບໍ່ມີ",
+  "p20_empty_title": "ຍັງບໍ່ມີອຸປະກອນ",
+  "p20_empty_body": "ຈັບຄູ່ໂທລະສັບ ຫຼື ໂມງທີ່ລູກຖືໄປ",
+  "p20_error_title": "ໂຫຼດສະຖານະອຸປະກອນບໍ່ໄດ້",
+  "p20_error_body": "ລາຍການຂ້າງລຸ່ມອາດບໍ່ທັນສະໄໝ",
+  "p27_title": "ໂປຣໄຟລ໌ລູກ",
+  "p27_age": "ອາຍຸ {n} ປີ",
+  "@p27_age": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p27_devices": "ອຸປະກອນ {n} ເຄື່ອງ",
+  "@p27_devices": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p27_zones": "ເຂດປອດໄພ {n} ບ່ອນ",
+  "@p27_zones": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p27_emergency": "ບັດສຸກເສີນ",
+  "p27_remove": "ເອົາອອກຈາກຄອບຄົວ",
+  "p27_empty_title": "ໂປຣໄຟລ໌ນີ້ຍັງວ່າງ",
+  "p27_empty_body": "ໃສ່ຊື່ ແລະ ຈັບຄູ່ອຸປະກອນ ຈຶ່ງຈະເຫັນໃນແຜນທີ່",
+  "p27_error_title": "ໂຫຼດໂປຣໄຟລ໌ບໍ່ໄດ້",
+  "p27_error_body": "ລອງໃໝ່ ຫຼື ລາກລົງເພື່ອໂຫຼດຄືນ",
+  "p28_title": "ຄອບຄົວ ແລະ ສິດ",
+  "p28_role_owner": "ເຈົ້າຂອງ",
+  "p28_role_parent": "ພໍ່ແມ່ຮ່ວມ",
+  "p28_role_guardian": "ຜູ້ດູແລ",
+  "p28_role_owner_can": "ເຮັດໄດ້ທຸກຢ່າງ ລວມທັງເອົາສະມາຊິກອອກ",
+  "p28_role_parent_can": "ເຫັນທຸກຢ່າງ ແຕ່ເອົາເຈົ້າຂອງອອກບໍ່ໄດ້",
+  "p28_role_guardian_can": "ເຫັນພຽງຕຳແໜ່ງ ແລະ SOS",
+  "p28_invite": "ເຊີນສະມາຊິກຄອບຄົວ",
+  "p28_pending": "ເຊີນແລ້ວ ລໍຖ້າເຂົ້າຮ່ວມ",
+  "p28_pending_code": "ລະຫັດ {code}",
+  "@p28_pending_code": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "p28_empty_title": "ມີແຕ່ທ່ານຄົນດຽວ",
+  "p28_empty_body": "ເຊີນພໍ່ແມ່ອີກຄົນ ຫຼື ພໍ່ຕູ້ແມ່ຕູ້ ເພື່ອໃຫ້ SOS ໄປຮອດຫຼາຍກວ່າໜຶ່ງເຄື່ອງ",
+  "p28_error_title": "ໂຫຼດລາຍຊື່ສະມາຊິກບໍ່ໄດ້",
+  "p28_error_body": "ລອງໃໝ່",
+  "p31_title": "ບັດສຸກເສີນ",
+  "p31_lede": "ຄົນທີ່ມາຊ່ວຍຕອນ SOS ຈະເຫັນບັດນີ້ ຂຽນສັ້ນ ແລະ ຖືກຕ້ອງ",
+  "p31_blood": "ກຣຸບເລືອດ",
+  "p31_allergies": "ການແພ້ຢາ",
+  "p31_conditions": "ພະຍາດປະຈຳຕົວ",
+  "p31_conditions_value": "ຫືດເລັກນ້ອຍ",
+  "p31_contacts": "ຜູ້ຕິດຕໍ່ສຸກເສີນ",
+  "p31_empty_title": "ບັດຍັງວ່າງ",
+  "p31_empty_body": "ບັດວ່າງບໍ່ມີປະໂຫຍດເລີຍໃນເວລາທີ່ຕ້ອງການ ໃຊ້ເວລາສອງນາທີດຽວນີ້",
+  "p31_fill": "ຕື່ມຂໍ້ມູນ",
+  "p31_error_title": "ໂຫຼດບັດບໍ່ໄດ້",
+  "p31_error_body": "ລອງໃໝ່",
+  "k01_title": "ໃສ່ລະຫັດຂອງເຈົ້າ",
+  "k01_lede": "ຂໍລະຫັດຈາກໂທລະສັບຂອງພໍ່ແມ່",
+  "k01_code_label": "ລະຫັດຈັບຄູ່",
+  "k01_scan": "ສະແກນຮູບສີ່ຫຼ່ຽມແທນ",
+  "k01_joining": "ກຳລັງເຂົ້າຮ່ວມຄອບຄົວ…",
+  "k01_empty_title": "ຍັງບໍ່ມີລະຫັດ",
+  "k01_empty_body": "ບອກພໍ່ແມ່ໃຫ້ເປີດ PingPing ແລ້ວກົດ “ຈັບຄູ່ອຸປະກອນ”",
+  "k01_error_title": "ລະຫັດນີ້ໃຊ້ບໍ່ໄດ້",
+  "k01_error_body": "ລະຫັດໃຊ້ໄດ້ 10 ນາທີ ຂໍລະຫັດໃໝ່",
+  "k03_title": "ກຳລັງສົ່ງ SOS",
+  "k03_count": "{n}",
+  "@k03_count": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "k03_body": "ທຸກຄົນໃນຄອບຄົວຈະເຫັນວ່າເຈົ້າຢູ່ໃສ",
+  "k03_cancel": "ຂ້ອຍກົດຜິດ",
+  "k03_sent": "ສົ່ງແລ້ວ ເຂົາຮູ້ແລ້ວ",
+  "k03_error_title": "ຕອນນີ້ບໍ່ມີສັນຍານ",
+  "k03_error_body": "SOS ຖືກເກັບໄວ້ແລ້ວ ແລະ ຈະສົ່ງທັນທີທີ່ມີສັນຍານ ຖ້າໄດ້ ໃຫ້ຢູ່ບ່ອນເກົ່າ",
+  "k08_title": "ຕັ້ງຄ່າ",
+  "k08_battery": "ແບັດເຕີຣີ {n}%",
+  "@k08_battery": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "k08_battery_tip": "ເປີດແອັບໄວ້ ຄອບຄົວຈຶ່ງຫາເຈົ້າພົບ",
+  "k08_permissions": "ການອະນຸຍາດ",
+  "k08_study": "ໂໝດຮຽນ",
+  "k08_study_body": "ງຽບທຸກຢ່າງ ຍົກເວັ້ນ SOS ຈົນຮອດ 16:00",
+  "k08_see": "ສິ່ງທີ່ພໍ່ແມ່ເຫັນ",
+  "k08_empty_title": "ຍັງບໍ່ໄດ້ຈັບຄູ່",
+  "k08_empty_body": "ການຕັ້ງຄ່າຈະປາກົດເມື່ອເຂົ້າຮ່ວມຄອບຄົວແລ້ວ",
+  "k08_error_title": "ໂຫຼດການຕັ້ງຄ່າບໍ່ໄດ້",
+  "k08_error_body": "ລອງໃໝ່",
+  "p27_devices_row": "ອຸປະກອນ",
+  "p27_zones_row": "ເຂດປອດໄພ"
+}

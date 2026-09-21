@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P05 Pair Device
+     Features: B5 pairing by code or square. The code shape is prototype-local: the contract
+               has not fixed one yet, so fixtures/seed.js marks it as a placeholder.
+     Open decision UI-7 (benchmark F-5): lead with a shareable link instead of the square.
+     States: loading (waiting for the device) · empty (code expired) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P05 · Pair device</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p05-qr { width: 190px; height: 190px; margin: 0 auto; padding: var(--pp-s3);
+            background: var(--md-sys-color-surface); border-radius: var(--pp-r-card);
+            box-shadow: 0 10px 28px -18px rgba(0,0,0,.55); }
+  .p05-qr svg { width: 100%; height: 100%; display: block; }
+  .p05-code { font-size: 26px; font-weight: 800; letter-spacing: .12em; text-align: center;
+              font-variant-numeric: tabular-nums; }
+  .p05-steps { counter-reset: s; display: flex; flex-direction: column; gap: var(--pp-s3); }
+  .p05-steps li { display: flex; gap: var(--pp-s3); align-items: flex-start; list-style: none; }
+  .p05-steps li::before { counter-increment: s; content: counter(s);
+    width: 24px; height: 24px; border-radius: 50%; flex: 0 0 auto;
+    background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container);
+    display: flex; align-items: center; justify-content: center; font-size: var(--pp-t-label); font-weight: 700; }
+  .p05-steps { padding: 0; margin: 0; }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p05_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <p class="pp-label" data-i18n="p05_lede" data-i18n-args="name:#family01.children.0"></p>
+      <div class="p05-qr" aria-hidden="true">
+        <svg viewBox="0 0 21 21" shape-rendering="crispEdges">
+          <rect width="21" height="21" fill="var(--md-sys-color-surface)"/>
+          <g fill="var(--md-sys-color-on-surface)">
+            <path d="M0 0h7v7H0zM14 0h7v7h-7zM0 14h7v7H0z"/>
+            <path d="M2 2h3v3H2zM16 2h3v3h-3zM2 16h3v3H2z" fill="var(--md-sys-color-surface)"/>
+            <path d="M9 0h1v2H9zM11 1h1v3h-1zM9 4h2v1H9zM12 0h1v1h-1z"/>
+            <path d="M0 9h2v1H0zM3 9h1v2H3zM5 10h2v1H5zM1 11h1v1H1z"/>
+            <path d="M9 9h2v2H9zM12 9h1v1h-1zM9 12h1v1H9zM11 12h2v1h-2zM14 9h1v2h-1z"/>
+            <path d="M16 9h1v1h-1zM18 10h1v1h-1zM20 9h1v2h-1zM17 12h2v1h-2z"/>
+            <path d="M9 15h1v2H9zM11 16h2v1h-2zM9 19h2v1H9zM13 18h1v2h-1z"/>
+            <path d="M15 15h2v1h-2zM18 15h1v2h-1zM16 18h1v2h-1zM19 19h2v1h-2z"/>
+          </g>
+        </svg>
+      </div>
+      <div class="pp-card">
+        <span class="pp-label" data-i18n="p05_code_label"></span>
+        <span class="p05-code" data-val="pairing.code"></span>
+        <div class="pp-quick">
+          <md-outlined-button data-i18n="common_copy"></md-outlined-button>
+          <md-outlined-button data-i18n="common_share"></md-outlined-button>
+        </div>
+        <span class="pp-label pp-num" data-i18n="p05_expires" data-i18n-args="n:@pairing.expiresMin"></span>
+      </div>
+      <ol class="p05-steps">
+        <li><span data-i18n="p05_step_1"></span></li>
+        <li><span data-i18n="p05_step_2"></span></li>
+        <li><span data-i18n="p05_step_3"></span></li>
+      </ol>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="width:190px;height:190px;margin:0 auto"></div>
+      <p class="pp-title" style="text-align:center" data-i18n="p05_waiting"></p>
+      <div class="pp-skel" style="height:11px;width:70%"></div>
+      <div class="pp-skel" style="height:11px;width:52%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">timer_off</span>
+        <h2 class="pp-title" data-i18n="p05_empty_title"></h2>
+        <p data-i18n="p05_empty_body"></p>
+        <md-filled-button data-i18n="p05_new_code" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">link_off</span>
+        <h2 class="pp-title" data-i18n="p05_error_title"></h2>
+        <p data-i18n="p05_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

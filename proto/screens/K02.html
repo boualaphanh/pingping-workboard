@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     K02 Kids Home
+     Features: B1 Kids app home · A4.1 SOS button, press and hold
+               E7 transparency — the child sees exactly what a parent can and cannot see
+     States: loading · empty (not paired yet) · error (offline, SOS still queues) · ok
+     Theme: kids flavor. on-primary is dark green, not white — see tokens/kids.css. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>K02 · Kids Home</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .k02-sos {
+    width: 190px; height: 190px;
+    border-radius: 50%;
+    border: 0;
+    margin: var(--pp-s4) auto var(--pp-s2);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: var(--pp-s1);
+    background: var(--md-sys-color-error);
+    color: var(--md-sys-color-on-error);
+    font: inherit;
+    font-size: var(--pp-t-display);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    box-shadow: 0 16px 34px -18px var(--md-sys-color-error);
+    transition: transform var(--pp-motion), box-shadow var(--pp-motion);
+    touch-action: none;
+  }
+  .k02-sos small { font-size: var(--pp-t-label); font-weight: 600; letter-spacing: 0; opacity: .92; }
+  .k02-sos[data-holding] { transform: scale(0.94); box-shadow: 0 6px 16px -10px var(--md-sys-color-error); }
+  .k02-sos[data-held] { outline: 4px solid var(--md-sys-color-on-error); outline-offset: -12px; }
+  @media (prefers-reduced-motion: reduce) { .k02-sos { transition: none; } }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="kids" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+
+  <header class="pp-appbar">
+    <span class="pp-brandmark">K</span>
+    <span class="pp-appbar-title" data-i18n="k02_title" data-i18n-args="name:#kidsSelf"></span>
+    <button class="pp-touch" aria-label="Settings" onclick="location.href='K08.html'+location.search">
+      <span class="pp-icon">settings</span>
+    </button>
+  </header>
+
+  <main class="pp-content">
+
+    <!-- ok ------------------------------------------------------------------>
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+
+      <button class="k02-sos" data-hold="3000" aria-label="SOS, hold for three seconds">
+        <span data-i18n="k02_sos"></span>
+        <small data-i18n="k02_sos_hold"></small>
+      </button>
+
+      <!-- E7 · transparency is the point: a child who trusts the app keeps it switched on -->
+      <section class="pp-card" data-tone="primary">
+        <span class="pp-title" data-i18n="k02_see_title"></span>
+        <div class="pp-row">
+          <span class="pp-icon" data-fill>visibility</span>
+          <span class="pp-grow" data-i18n="k02_see_yes"></span>
+        </div>
+        <div class="pp-row">
+          <span class="pp-icon">visibility_off</span>
+          <span class="pp-grow" data-i18n="k02_see_no"></span>
+        </div>
+      </section>
+
+      <div class="pp-chips">
+        <span class="pp-chip" style="background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary)">
+          <span class="pp-icon" data-fill>flag</span>
+          <span class="pp-num" data-i18n="k02_missions" data-i18n-args="done:@kidsSelf.missionsDone;total:@kidsSelf.missionsTotal"></span>
+        </span>
+        <span class="pp-chip" data-status="battery">
+          <span class="pp-icon" data-fill>toll</span>
+          <span class="pp-num" data-i18n="k02_coins" data-i18n-args="n:@kidsSelf.coins"></span>
+        </span>
+      </div>
+    </div>
+
+    <!-- loading --------------------------------------------------------------->
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)" aria-busy="true">
+      <div class="pp-skel" style="width:190px;height:190px;border-radius:50%;margin:var(--pp-s4) auto var(--pp-s2)"></div>
+      <div class="pp-card">
+        <div class="pp-skel" style="height:14px;width:52%"></div>
+        <div class="pp-skel" style="height:11px;width:74%"></div>
+        <div class="pp-skel" style="height:11px;width:66%"></div>
+      </div>
+      <div class="pp-row">
+        <div class="pp-skel" style="height:26px;width:120px"></div>
+        <div class="pp-skel" style="height:26px;width:84px"></div>
+      </div>
+    </div>
+
+    <!-- empty — not paired yet; the child is given the exact next action ------->
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column">
+      <div class="pp-figure">
+        <span class="pp-icon">link_off</span>
+        <h2 class="pp-title" data-i18n="k02_empty_title"></h2>
+        <p data-i18n="k02_empty_body"></p>
+        <md-filled-button data-i18n="k02_empty_action" style="margin-top:var(--pp-s2)"
+                          onclick="location.href='K01.html'+location.search"></md-filled-button>
+      </div>
+    </div>
+
+    <!-- error — offline, and SOS is still the thing that must keep working ----->
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <button class="k02-sos" data-hold="3000" aria-label="SOS, hold for three seconds">
+        <span data-i18n="k02_sos"></span>
+        <small data-i18n="k02_sos_hold"></small>
+      </button>
+      <div class="pp-card" data-tone="error">
+        <div class="pp-row">
+          <span class="pp-icon">wifi_off</span>
+          <div class="pp-col pp-grow">
+            <span class="pp-title" data-i18n="k02_error_title"></span>
+            <span class="pp-label" style="color:inherit;opacity:.9" data-i18n="k02_error_body"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <nav class="pp-navbar">
+    <button class="pp-nav-item" aria-selected="true">
+      <span class="pp-nav-pill"><span class="pp-icon" data-fill>home</span></span>
+      <span data-i18n="k02_nav_home"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">flag</span></span>
+      <span data-i18n="k02_nav_missions"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">wallet</span></span>
+      <span data-i18n="k02_nav_wallet"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">chat</span></span>
+      <span data-i18n="k02_nav_messages"></span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

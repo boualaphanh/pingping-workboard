@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P06 Permission Request
+     Features: A1 location-always, A11 battery reporting, notifications for A4
+     Each permission states the benefit before the system prompt is raised — the priming
+     pattern from benchmark F-4. Open decision UI-2: split this into one screen each.
+     States: ok · error (location refused). Documented exception, design spec §6. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P06 · Permissions</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <span class="pp-brandmark">P</span>
+    <span class="pp-appbar-title" data-i18n="p06_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <p class="pp-label" data-i18n="p06_lede"></p>
+      <section class="pp-card">
+        <div class="pp-row">
+          <span class="pp-icon" style="color:var(--md-sys-color-primary)">location_on</span>
+          <span class="pp-title pp-grow" data-i18n="p06_loc_title"></span>
+        </div>
+        <p class="pp-label" data-i18n="p06_loc_why"></p>
+        <md-filled-button data-i18n="common_allow"></md-filled-button>
+      </section>
+      <section class="pp-card">
+        <div class="pp-row">
+          <span class="pp-icon" style="color:var(--md-sys-color-primary)">notifications_active</span>
+          <span class="pp-title pp-grow" data-i18n="p06_notif_title"></span>
+        </div>
+        <p class="pp-label" data-i18n="p06_notif_why"></p>
+        <span class="pp-chip" data-status="safe"><span class="pp-icon">check</span><span data-i18n="common_allowed"></span></span>
+      </section>
+      <md-text-button data-i18n="common_continue"></md-text-button>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">location_off</span>
+        <h2 class="pp-title" data-i18n="p06_error_title"></h2>
+        <p data-i18n="p06_error_body"></p>
+        <md-filled-button data-i18n="p06_open_settings" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

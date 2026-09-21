@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P01 Splash
+     Features: — (the app deciding where to send you)
+     States: success only. Documented exception, design spec §6: it has no data. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P01 · Splash</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p01 { flex: 1 1 auto; display: flex; flex-direction: column; align-items: center;
+         justify-content: center; gap: var(--pp-s4); text-align: center;
+         background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+  .p01-mark { width: 88px; height: 88px; border-radius: 28px; font-size: 40px;
+              background: var(--md-sys-color-on-primary); color: var(--md-sys-color-primary); }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <div data-state-view="ok" class="pp-flex p01">
+    <span class="pp-brandmark p01-mark">P</span>
+    <h1 class="pp-display" data-i18n="common_app_name"></h1>
+    <p class="pp-label" style="color:inherit;opacity:.85" data-i18n="p01_tagline"></p>
+    <md-circular-progress indeterminate style="--md-circular-progress-active-indicator-color:var(--md-sys-color-on-primary)"></md-circular-progress>
+  </div>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

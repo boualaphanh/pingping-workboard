@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     K03 SOS Confirm / Countdown
+     Features: A4.2 — a countdown the child can cancel, so a pocket press is not an emergency
+     States: ok (counting) · error (no signal, the SOS is queued).
+     Documented exception, design spec §6: a countdown has no skeleton and no empty state. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>K03 · SOS countdown</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .k03 { flex: 1 1 auto; display: flex; flex-direction: column; align-items: center;
+         justify-content: center; gap: var(--pp-s4); text-align: center;
+         padding: var(--pp-s5) var(--pp-s4);
+         background: var(--md-sys-color-error); color: var(--md-sys-color-on-error); }
+  .k03-count { width: 200px; height: 200px; border-radius: 50%;
+               border: 6px solid var(--md-sys-color-on-error);
+               display: flex; align-items: center; justify-content: center;
+               font-size: 84px; font-weight: 800; font-variant-numeric: tabular-nums;
+               position: relative; }
+  .k03-count::after { content: ""; position: absolute; inset: -16px; border-radius: 50%;
+                      background: var(--md-sys-color-on-error); opacity: .16;
+                      animation: pp-pulse 1s ease-out infinite; }
+  .k03-cancel { width: 100%; max-width: 320px;
+                --md-outlined-button-label-text-color: var(--md-sys-color-on-error);
+                --md-outlined-button-outline-color: var(--md-sys-color-on-error); }
+  @media (prefers-reduced-motion: reduce) { .k03-count::after { animation: none; } }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="kids" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+    <div data-state-view="ok" class="pp-flex k03" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="k03-count pp-num" data-i18n="k03_count" data-i18n-args="n:3"></div>
+      <h1 class="pp-title" data-i18n="k03_title"></h1>
+      <p data-i18n="k03_body"></p>
+      <md-outlined-button class="k03-cancel" data-i18n="k03_cancel"></md-outlined-button>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">wifi_off</span>
+        <h2 class="pp-title" data-i18n="k03_error_title"></h2>
+        <p data-i18n="k03_error_body"></p>
+      </div>
+    </div>
+
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

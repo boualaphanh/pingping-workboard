@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P11 Location History
+     Features: A1.4 daily timeline with stop points and how long each one lasted
+               Retention: 30 days free / 90 days premium (Feature Breakdown A1)
+     States: loading · empty (nothing recorded today) · error (partial) · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P11 · Location history</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p11-tl { display: flex; flex-direction: column; }
+  .p11-stop { display: flex; gap: var(--pp-s3); padding: var(--pp-s3) 0; }
+  .p11-rail { display: flex; flex-direction: column; align-items: center; flex: 0 0 auto; width: 34px; }
+  .p11-dot { width: 34px; height: 34px; border-radius: 12px; flex: 0 0 auto;
+             background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container);
+             display: flex; align-items: center; justify-content: center; }
+  .p11-line { width: 2px; flex: 1 1 auto; background: var(--pp-hairline); margin-top: var(--pp-s1); }
+  .p11-stop:last-child .p11-line { display: none; }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p11_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-chips">
+        <span class="pp-chip" data-status="safe"><span data-i18n="p11_day"></span></span>
+        <span class="pp-chip pp-num" data-i18n="p11_stops" data-i18n-args="n:3"></span>
+        <span class="pp-chip pp-num" data-i18n="p11_distance" data-i18n-args="n:@history.distanceKm"></span>
+      </div>
+      <div class="pp-map">
+        <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g stroke="var(--md-sys-color-outline)" stroke-width="6" opacity=".32" fill="none">
+            <path d="M-10 92 H 320" /><path d="M96 -10 V 150" />
+          </g>
+          <path d="M40 104 L 110 78 L 170 56 L 244 34" fill="none"
+                stroke="var(--md-sys-color-primary)" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+        </svg>
+        <span class="pp-pin" style="left:14%;top:79%"></span>
+        <span class="pp-pin" style="left:81%;top:26%"></span>
+      </div>
+      <section class="pp-card">
+        <div class="p11-tl" id="p11List"></div>
+      </section>
+      <p class="pp-label" style="text-align:center" data-i18n="p11_retention"></p>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:24px;width:70%"></div>
+      <div class="pp-skel" style="height:132px"></div>
+      <div class="pp-skel" style="height:56px;width:100%"></div>
+      <div class="pp-skel" style="height:56px;width:100%"></div>
+      <div class="pp-skel" style="height:56px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">event_busy</span>
+        <h2 class="pp-title" data-i18n="p11_empty_title"></h2>
+        <p data-i18n="p11_empty_body"></p>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p11_error_title"></h2>
+        <p data-i18n="p11_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function render() {
+    var box = document.getElementById("p11List");
+    if (!box) return;
+    box.innerHTML = "";
+    window.PP_SEED.history.stops.forEach(function (s) {
+      var row = document.createElement("div");
+      row.className = "p11-stop";
+      var icon = s.placeKey === "p10_place_home" ? "home"
+               : s.placeKey === "p10_place_school" ? "school" : "location_on";
+      row.innerHTML =
+        '<span class="p11-rail"><span class="p11-dot"><span class="pp-icon">' + icon + '</span></span>' +
+        '<span class="p11-line"></span></span>' +
+        '<span class="pp-col pp-grow">' +
+          '<span style="font-weight:600">' +
+            (s.placeKey ? window.PP.t(s.placeKey) : s.place) + "</span>" +
+          '<span class="pp-label pp-num">' + window.PP.t("p11_arrive", { time: s.arrive }) + "</span>" +
+          '<span class="pp-label pp-num">' +
+            window.PP.t("p11_stay", { dur: window.PP.duration(s.minutes) }) + "</span>" +
+        "</span>";
+      box.appendChild(row);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

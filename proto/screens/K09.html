@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     K09 Loud Signal, on the child's phone
+     Features: A5.2 the alarm plays at full volume through silent mode
+               A5.3 the child stops it, and that acknowledgement goes back to the parent
+     States: ok (the alarm is playing) · error (stopped, but the acknowledgement did not send)
+     Documented exception (design spec §6): a live alarm has no loading skeleton and no empty
+     state — it is either sounding or it is not. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>K09 · Loud Signal</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .k09 {
+    flex: 1 1 auto;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: var(--pp-s4);
+    text-align: center;
+    padding: var(--pp-s5) var(--pp-s4);
+  }
+  .k09-ring {
+    width: 188px; height: 188px; border-radius: 50%;
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .k09-ring .pp-icon { font-size: 78px; }
+  .k09-ring::after {
+    content: ""; position: absolute; inset: -14px; border-radius: 50%;
+    background: var(--md-sys-color-primary); opacity: .22;
+    animation: pp-pulse 1.4s ease-out infinite;
+  }
+  .k09-stop { width: 100%; max-width: 320px; }
+  @media (prefers-reduced-motion: reduce) { .k09-ring::after { animation: none; } }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="kids" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+
+  <!-- ok — the alarm is sounding ------------------------------------------->
+  <div data-state-view="ok" class="pp-flex k09">
+    <div class="k09-ring"><span class="pp-icon" data-fill>campaign</span></div>
+    <h1 class="pp-display" data-i18n="k09_title"></h1>
+    <p class="pp-label" data-i18n="k09_body"></p>
+    <md-filled-button class="k09-stop" data-i18n="k09_stop"></md-filled-button>
+  </div>
+
+  <!-- error — stopped, but the acknowledgement has not reached the parent --->
+  <div data-state-view="error" class="pp-flex k09">
+    <div class="pp-figure" data-tone="error">
+      <span class="pp-icon">wifi_off</span>
+      <h2 class="pp-title" data-i18n="k02_error_title"></h2>
+      <p data-i18n="k02_error_body"></p>
+      <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+    </div>
+  </div>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+</body>
+</html>

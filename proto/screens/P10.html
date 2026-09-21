@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P10 Live Map — map-first layout, and the Parent app's home screen
+     Navigation decided 2026-09-21: three tabs, Map · Growth · Family, alerts as an icon.
+     P07 Home Dashboard was merged into this screen's sheet and removed.
+     Features: A1.1 every child on one map, each with their own face and label
+               A1.3 request location now · A1.5 accuracy, source and freshness
+               A11 battery, shown on the marker itself · A2 saved places (S2) already drawn
+     States: loading · empty (device never reported) · error (last known, greyed) · ok
+     Benchmarked against Find My Kids on 2026-09-21: the map is the screen, controls float
+     over it, and a marker carries the answer (who, where, how long) without a tap.
+     The map itself is an inline SVG stub — no tiles, no SDK. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P10 · Live Map</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p10-route { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+  .p10-sheet { gap: var(--pp-s2); }
+  .p10-focus { display: flex; flex-direction: column; gap: var(--pp-s2); }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+
+  <!-- ok ------------------------------------------------------------------->
+  <div data-state-view="ok" class="pp-flex pp-mapstage" id="p10Stage">
+    <div class="pp-map" data-size="lg" style="position:absolute;inset:0;height:auto">
+      <svg viewBox="0 0 360 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g stroke="var(--md-sys-color-outline)" stroke-width="11" opacity=".30" fill="none">
+          <path d="M-20 300 H 380" />
+          <path d="M130 -20 V 740" />
+          <path d="M270 -20 L 340 740" />
+        </g>
+        <g stroke="var(--md-sys-color-outline)" stroke-width="4" opacity=".22" fill="none">
+          <path d="M-20 130 H 380" /><path d="M-20 470 H 380" /><path d="M-20 610 H 380" />
+          <path d="M55 -20 V 740" /><path d="M210 -20 V 740" />
+        </g>
+        <g fill="var(--md-sys-color-outline)" opacity=".10">
+          <rect x="20" y="150" width="70" height="100" rx="6" />
+          <rect x="150" y="340" width="90" height="90" rx="6" />
+          <rect x="250" y="120" width="80" height="120" rx="6" />
+        </g>
+      </svg>
+
+      <!-- today's path, drawn in the same percentage space as the markers -->
+      <svg class="p10-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path id="p10Route" fill="none" stroke="var(--md-sys-color-primary)"
+              stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" opacity=".75"
+              vector-effect="non-scaling-stroke" />
+      </svg>
+
+      <div id="p10Layer"></div>
+    </div>
+
+    <!-- floating controls, in the order the reference puts them ------------->
+    <div class="pp-float" data-at="top-left">
+      <button class="pp-fbtn" id="p10Settings" aria-label="Settings"><span class="pp-icon">settings</span></button>
+    </div>
+    <div class="pp-float" data-at="top-centre">
+      <button class="pp-fbtn" id="p10Switch">
+        <span class="pp-icon">groups</span>
+        <span data-i18n="p10_family_switch"></span>
+        <span class="pp-icon">expand_more</span>
+      </button>
+    </div>
+    <div class="pp-float" data-at="top-right">
+      <button class="pp-fbtn" aria-label="Alerts" onclick="location.href='P09.html'+location.search">
+        <span class="pp-icon">notifications</span>
+      </button>
+      <button class="pp-fbtn" aria-label="Map layers"><span class="pp-icon">layers</span></button>
+    </div>
+    <div class="pp-float" data-at="bottom-right" style="bottom:calc(62% + var(--pp-s3))">
+      <button class="pp-fbtn" aria-label="Recentre"><span class="pp-icon">my_location</span></button>
+    </div>
+
+    <!-- the sheet: who is in the family, and what to do about the one in focus -->
+    <div class="pp-sheet p10-sheet" data-over-map>
+      <!-- A4 · an active SOS sits above everything else in the sheet -->
+      <a class="pp-card" data-tone="error" href="P09.html" style="text-decoration:none;color:inherit;padding:var(--pp-s3)">
+        <div class="pp-row">
+          <span class="pp-avatar" data-size="sm" style="background:var(--md-sys-color-error);color:var(--md-sys-color-on-error)">
+            <span class="pp-icon" data-fill>sos</span>
+          </span>
+          <div class="pp-col pp-grow">
+            <span style="font-weight:700" data-i18n="p10_sos_banner" data-i18n-args="name:#sosAlert"></span>
+            <span class="pp-label" style="color:inherit;opacity:.85" data-i18n="p10_sos_banner_where"></span>
+          </div>
+          <span class="pp-icon">chevron_right</span>
+        </div>
+      </a>
+
+      <div class="pp-sheet-title">
+        <span class="pp-icon" style="font-size:16px">family_restroom</span>
+        <span class="pp-grow" data-i18n="p10_sheet_family"></span>
+        <span class="pp-num" data-i18n="p10_child_count" data-i18n-args="n:3"></span>
+      </div>
+
+      <div id="p10List"></div>
+
+      <div class="pp-hairline"></div>
+
+      <div class="p10-focus">
+        <div class="pp-chips" id="p10FocusChips"></div>
+        <div class="pp-quick">
+          <md-filled-button id="p10Refresh"></md-filled-button>
+          <md-filled-tonal-button id="p10Loud">
+            <span class="pp-icon" slot="icon">volume_up</span>
+          </md-filled-tonal-button>
+        </div>
+        <div class="pp-quick">
+          <md-outlined-button id="p10History"></md-outlined-button>
+          <md-outlined-button id="p10Profile"></md-outlined-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- loading --------------------------------------------------------------->
+  <div data-state-view="loading" class="pp-flex pp-mapstage" aria-busy="true">
+    <div class="pp-skel" style="position:absolute;inset:0;border-radius:0"></div>
+    <div class="pp-sheet" data-over-map>
+      <div class="pp-skel" style="height:11px;width:40%"></div>
+      <div class="pp-row" style="padding:var(--pp-s2) 0">
+        <div class="pp-skel" style="width:42px;height:42px;border-radius:50%"></div>
+        <div class="pp-col pp-grow" style="gap:var(--pp-s2)">
+          <div class="pp-skel" style="height:13px;width:36%"></div>
+          <div class="pp-skel" style="height:10px;width:58%"></div>
+        </div>
+      </div>
+      <div class="pp-hairline"></div>
+      <div class="pp-row" style="padding:var(--pp-s2) 0">
+        <div class="pp-skel" style="width:42px;height:42px;border-radius:50%"></div>
+        <div class="pp-col pp-grow" style="gap:var(--pp-s2)">
+          <div class="pp-skel" style="height:13px;width:30%"></div>
+          <div class="pp-skel" style="height:10px;width:52%"></div>
+        </div>
+      </div>
+      <div class="pp-skel" style="height:40px"></div>
+    </div>
+  </div>
+
+  <!-- empty ----------------------------------------------------------------->
+  <div data-state-view="empty" class="pp-flex pp-mapstage" style="flex-direction:column;justify-content:center">
+    <div class="pp-figure">
+      <span class="pp-icon">location_searching</span>
+      <h2 class="pp-title" data-i18n="p10_empty_title"></h2>
+      <p data-i18n="p10_empty_body"></p>
+      <md-outlined-button data-i18n="p10_refresh" style="margin-top:var(--pp-s2)"></md-outlined-button>
+    </div>
+  </div>
+
+  <!-- error — the last known position stays, greyed and labelled ------------->
+  <div data-state-view="error" class="pp-flex pp-mapstage">
+    <div class="pp-map" data-size="lg" style="position:absolute;inset:0;height:auto;filter:grayscale(1);opacity:.6">
+      <svg viewBox="0 0 360 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g stroke="var(--md-sys-color-outline)" stroke-width="11" opacity=".30" fill="none">
+          <path d="M-20 300 H 380" /><path d="M130 -20 V 740" />
+        </g>
+      </svg>
+      <div class="pp-marker" data-status="offline" style="left:46%;top:34%">
+        <span class="pp-marker-label"><span data-i18n="common_offline"></span></span>
+        <span class="pp-marker-body"><span class="pp-marker-face" data-avatar="family01.children.0"></span></span>
+      </div>
+    </div>
+    <div class="pp-sheet" data-over-map>
+      <div class="pp-row">
+        <span class="pp-icon" style="color:var(--md-sys-color-error)">cloud_off</span>
+        <div class="pp-col pp-grow">
+          <span class="pp-title" data-i18n="p10_error_title"></span>
+          <span class="pp-label" data-i18n="p10_error_body"></span>
+        </div>
+      </div>
+      <md-outlined-button data-i18n="common_retry"></md-outlined-button>
+    </div>
+  </div>
+
+  <nav class="pp-navbar">
+    <button class="pp-nav-item" aria-selected="true">
+      <span class="pp-nav-pill"><span class="pp-icon" data-fill>map</span></span>
+      <span data-i18n="common_nav_map"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">trending_up</span></span>
+      <span data-i18n="common_nav_growth_tab"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false" onclick="location.href='P28.html'+location.search">
+      <span class="pp-nav-pill"><span class="pp-icon">group</span></span>
+      <span data-i18n="common_nav_family_tab"></span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+/* Markers, places and the child list are built from the fixture so that the same
+   data drives the map and the sheet — exactly as the real screen will work. */
+(function () {
+  "use strict";
+  var focus = 0;
+
+  function kids() { return window.PP_SEED.family01.children; }
+  function lang() { return document.body.getAttribute("data-lang"); }
+  function nameOf(c) { return lang() === "lo" ? c.lo : c.latin; }
+
+  function batteryTone(n) { return n <= 20 ? "low" : ""; }
+
+  function marker(child, i) {
+    var el = document.createElement("div");
+    el.className = "pp-marker";
+    el.setAttribute("data-status", child.status);
+    if (i === focus) el.setAttribute("data-selected", "");
+    el.style.left = child.map.x + "%";
+    el.style.top = child.map.y + "%";
+    el.setAttribute("role", "button");
+    el.setAttribute("tabindex", "0");
+    el.setAttribute("aria-label", nameOf(child));
+
+    var label = document.createElement("span");
+    label.className = "pp-marker-label";
+    label.innerHTML = "<b>" + nameOf(child) + "</b>";
+    var dwell = document.createElement("small");
+    dwell.textContent = window.PP.t(child.dwellKey, { dur: window.PP.duration(child.dwellMinutes) });
+    label.appendChild(dwell);
+
+    var body = document.createElement("span");
+    body.className = "pp-marker-body";
+    var face = document.createElement("span");
+    face.className = "pp-marker-face";
+    face.innerHTML = window.PP.avatar(child.avatar);
+    body.appendChild(face);
+
+    var badges = document.createElement("span");
+    badges.className = "pp-marker-badges";
+    var batt = document.createElement("span");
+    batt.className = "pp-badge";
+    if (batteryTone(child.battery)) batt.setAttribute("data-tone", batteryTone(child.battery));
+    batt.classList.add("pp-num");
+    batt.textContent = child.battery;
+    badges.appendChild(batt);
+    if (child.silent) {
+      var mute = document.createElement("span");
+      mute.className = "pp-badge";
+      mute.setAttribute("data-tone", "muted");
+      mute.setAttribute("title", window.PP.t("p10_silent"));
+      mute.innerHTML = '<span class="pp-icon">notifications_off</span>';
+      badges.appendChild(mute);
+    }
+    body.appendChild(badges);
+
+    el.appendChild(label);
+    el.appendChild(body);
+    el.onclick = function () { focus = i; render(); };
+    return el;
+  }
+
+  function place(p) {
+    var el = document.createElement("div");
+    el.className = "pp-place";
+    el.style.left = p.x + "%";
+    el.style.top = p.y + "%";
+    el.setAttribute("title", window.PP.t(p.key));
+    el.innerHTML = '<span class="pp-icon">' + p.icon + "</span>";
+    return el;
+  }
+
+  function childRow(child, i) {
+    var b = document.createElement("button");
+    b.className = "pp-child-row";
+    b.setAttribute("aria-selected", i === focus ? "true" : "false");
+    var face = '<span class="pp-child-face">' + window.PP.avatar(child.avatar) + "</span>";
+    var chipStatus = child.status === "offline"
+      ? '<span class="pp-chip" data-status="offline">' + window.PP.t("common_offline") + "</span>"
+      : '<span class="pp-chip pp-num" data-status="' + (child.status === "safe" ? "safe" : "stale") + '">' +
+        window.PP.t("common_battery", { n: child.battery }) + "</span>";
+    b.innerHTML = face +
+      '<span class="pp-col pp-grow">' +
+        '<span class="pp-child-name">' + nameOf(child) + "</span>" +
+        '<span class="pp-label">' +
+          window.PP.t(child.dwellKey, { dur: window.PP.duration(child.dwellMinutes) }) +
+        "</span>" +
+      "</span>" + chipStatus +
+      '<span class="pp-icon">chevron_right</span>';
+    b.onclick = function () { focus = i; render(); };
+    return b;
+  }
+
+  function render() {
+    var layer = document.getElementById("p10Layer");
+    var list = document.getElementById("p10List");
+    var chips = document.getElementById("p10FocusChips");
+    if (!layer || !list) return;
+
+    layer.innerHTML = "";
+    window.PP_SEED.places.forEach(function (p) { layer.appendChild(place(p)); });
+    kids().forEach(function (c, i) { layer.appendChild(marker(c, i)); });
+
+    var route = document.getElementById("p10Route");
+    if (route) route.setAttribute("d", window.PP_SEED.route);
+
+    list.innerHTML = "";
+    kids().forEach(function (c, i) { list.appendChild(childRow(c, i)); });
+
+    var c = kids()[focus];
+    chips.innerHTML =
+      '<span class="pp-chip pp-num"><span class="pp-icon">gps_fixed</span>' +
+        window.PP.t("p10_accuracy", { n: c.accuracy }) + "</span>" +
+      '<span class="pp-chip">' + window.PP.t(c.source) + "</span>" +
+      '<span class="pp-chip pp-num">' + window.PP.t("p10_last_fix", { n: c.minutesAgo }) + "</span>";
+
+    document.getElementById("p10Refresh").textContent = window.PP.t("p10_refresh");
+    document.getElementById("p10History").textContent = window.PP.t("p10_quick_history");
+    document.getElementById("p10Profile").textContent = window.PP.t("p10_open_profile");
+    var loud = document.getElementById("p10Loud");
+    loud.lastChild.remove();
+    loud.appendChild(document.createTextNode(window.PP.t("p10_quick_loud")));
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    document.getElementById("p10History").onclick = function () {
+      location.href = "P11.html" + location.search;
+    };
+    document.getElementById("p10Profile").onclick = function () {
+      location.href = "P27.html" + location.search;
+    };
+    document.getElementById("p10Loud").onclick = function () {
+      location.href = "P34.html" + location.search;
+    };
+    // the hub can change language or theme at any moment; rebuild after it lands
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

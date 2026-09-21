@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P31 Emergency Card
+     Features: AD3 — what a responder needs in the first minute. Gap G-03.
+     This screen does not exist in Feature Spec v0.1 §4.1; the prototype spec adds it.
+     Benchmark F-6: one emergency contact should be collected during onboarding, not here.
+     States: loading · empty (card never filled) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P31 · Emergency card</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p31_title"></span>
+    <button class="pp-touch" aria-label="Edit"><span class="pp-icon">edit</span></button>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-row">
+        <span class="pp-avatar" data-size="sm" data-nm-initial="family01.children.0"></span>
+        <span class="pp-title pp-grow" data-nm="family01.children.0"></span>
+      </div>
+      <p class="pp-label" data-i18n="p31_lede"></p>
+      <section class="pp-card">
+        <div class="pp-list">
+          <div class="pp-list-item">
+            <span class="pp-label pp-grow" data-i18n="p31_blood"></span>
+            <span style="font-weight:700" data-val="emergencyCard.bloodType"></span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-label pp-grow" data-i18n="p31_allergies"></span>
+            <span style="font-weight:700" data-i18n="p09_allergies_value"></span>
+          </div>
+          <div class="pp-list-item">
+            <span class="pp-label pp-grow" data-i18n="p31_conditions"></span>
+            <span style="font-weight:700" data-i18n="p31_conditions_value"></span>
+          </div>
+        </div>
+      </section>
+      <section class="pp-card">
+        <span class="pp-title" data-i18n="p31_contacts"></span>
+        <div class="pp-list" id="p31Contacts"></div>
+      </section>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:16px;width:40%"></div>
+      <div class="pp-skel" style="height:11px;width:78%"></div>
+      <div class="pp-skel" style="height:150px;width:100%"></div>
+      <div class="pp-skel" style="height:120px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">medical_information</span>
+        <h2 class="pp-title" data-i18n="p31_empty_title"></h2>
+        <p data-i18n="p31_empty_body"></p>
+        <md-filled-button data-i18n="p31_fill" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p31_error_title"></h2>
+        <p data-i18n="p31_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function render() {
+    var box = document.getElementById("p31Contacts");
+    if (!box) return;
+    var lang = document.body.getAttribute("data-lang");
+    box.innerHTML = "";
+    window.PP_SEED.emergencyCard.contacts.forEach(function (c) {
+      var el = document.createElement("div");
+      el.className = "pp-list-item";
+      var name = lang === "lo" ? c.lo : c.latin;
+      el.innerHTML =
+        '<span class="pp-col pp-grow">' +
+          '<span style="font-weight:600">' + name + "</span>" +
+          '<span class="pp-label pp-num">' + c.phone + "</span>" +
+        "</span>" +
+        '<span class="pp-chip">' + window.PP.t(c.roleKey) + "</span>" +
+        '<span class="pp-touch"><span class="pp-icon">call</span></span>';
+      box.appendChild(el);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

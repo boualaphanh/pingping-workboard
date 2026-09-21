@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P20 Devices & Battery
+     Features: B6 device health, B6.2 the permission checklist the parent can actually read
+               A11 battery per device. Family 03's first child carries a phone and a watch.
+     States: loading · empty (nothing paired) · error (stale list) · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P20 · Devices and battery</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p20_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <section class="pp-card">
+        <div class="pp-row">
+          <span class="pp-avatar" data-size="sm" data-nm-initial="family03.firstChild"></span>
+          <span class="pp-title pp-grow" data-nm="family03.firstChild"></span>
+        </div>
+        <div class="pp-list" id="p20Devices"></div>
+      </section>
+      <section class="pp-card">
+        <span class="pp-title" data-i18n="p20_checklist"></span>
+        <div class="pp-list" id="p20Checks"></div>
+      </section>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:92px;width:100%"></div>
+      <div class="pp-skel" style="height:92px;width:100%"></div>
+      <div class="pp-skel" style="height:120px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">devices</span>
+        <h2 class="pp-title" data-i18n="p20_empty_title"></h2>
+        <p data-i18n="p20_empty_body"></p>
+        <md-filled-button data-i18n="p05_title" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">sync_problem</span>
+        <h2 class="pp-title" data-i18n="p20_error_title"></h2>
+        <p data-i18n="p20_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function render() {
+    var box = document.getElementById("p20Devices");
+    var checks = document.getElementById("p20Checks");
+    if (!box || !checks) return;
+
+    box.innerHTML = "";
+    window.PP_SEED.family03.firstChild.devices.forEach(function (d, i) {
+      var row = document.createElement("div");
+      row.className = "pp-list-item";
+      var low = d.battery <= 20 ? ' data-status="stale"' : ' data-status="battery"';
+      row.innerHTML =
+        '<span class="pp-icon">' + (d.kind === "watch" ? "watch" : "smartphone") + "</span>" +
+        '<span class="pp-col pp-grow">' +
+          '<span style="font-weight:600">' + window.PP.t(d.kind === "watch" ? "p20_watch" : "p20_phone") + "</span>" +
+          '<span class="pp-label pp-num">' +
+            window.PP.t("p20_synced", { dur: window.PP.duration(i === 0 ? 2 : 14) }) + "</span>" +
+        "</span>" +
+        (d.primary ? '<span class="pp-chip">' + window.PP.t("p20_primary") + "</span>" : "") +
+        '<span class="pp-chip pp-num"' + low + ">" + window.PP.t("common_battery", { n: d.battery }) + "</span>";
+      box.appendChild(row);
+    });
+
+    checks.innerHTML = "";
+    var p = window.PP_SEED.permissions;
+    [["p20_check_location", p.location], ["p20_check_notif", p.notifications],
+     ["p20_check_battery", p.batteryOptimisationOff]].forEach(function (pair) {
+      var row = document.createElement("div");
+      row.className = "pp-list-item";
+      row.innerHTML =
+        '<span class="pp-icon" style="color:var(--' +
+          (pair[1] ? "pp-status-safe" : "md-sys-color-error") + ')">' +
+          (pair[1] ? "check_circle" : "cancel") + "</span>" +
+        '<span class="pp-grow">' + window.PP.t(pair[0]) + "</span>" +
+        '<span class="pp-chip"' + (pair[1] ? ' data-status="safe"' : ' data-status="stale"') + ">" +
+          window.PP.t(pair[1] ? "p20_check_ok" : "p20_check_missing") + "</span>";
+      checks.appendChild(row);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

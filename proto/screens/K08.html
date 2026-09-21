@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     K08 Kids Settings
+     Features: A11 battery, B6 permissions the child can see and fix, study mode,
+               and a link back to E7 transparency — what the parents can see
+     States: loading · empty (not paired) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>K08 · Settings</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="kids" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <span class="pp-brandmark">K</span>
+    <span class="pp-appbar-title" data-i18n="k08_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <section class="pp-card" data-tone="primary">
+        <div class="pp-row">
+          <span class="pp-icon" data-fill>battery_5_bar</span>
+          <div class="pp-col pp-grow">
+            <span class="pp-title pp-num" data-i18n="k08_battery" data-i18n-args="n:@kidsSelf.battery"></span>
+            <span class="pp-label" style="color:inherit;opacity:.85" data-i18n="k08_battery_tip"></span>
+          </div>
+        </div>
+      </section>
+      <section class="pp-card">
+        <span class="pp-title" data-i18n="k08_permissions"></span>
+        <div class="pp-list" id="k08Checks"></div>
+      </section>
+      <section class="pp-card">
+        <div class="pp-row">
+          <div class="pp-col pp-grow">
+            <span class="pp-title" data-i18n="k08_study"></span>
+            <span class="pp-label" data-i18n="k08_study_body"></span>
+          </div>
+          <md-switch selected></md-switch>
+        </div>
+      </section>
+      <section class="pp-card">
+        <div class="pp-list">
+          <a class="pp-list-item" href="K02.html" style="text-decoration:none;color:inherit">
+            <span class="pp-icon">visibility</span>
+            <span class="pp-grow" data-i18n="k08_see"></span>
+            <span class="pp-icon">chevron_right</span>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:88px;width:100%"></div>
+      <div class="pp-skel" style="height:140px;width:100%"></div>
+      <div class="pp-skel" style="height:96px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">link_off</span>
+        <h2 class="pp-title" data-i18n="k08_empty_title"></h2>
+        <p data-i18n="k08_empty_body"></p>
+        <md-filled-button data-i18n="k02_empty_action" style="margin-top:var(--pp-s2)" onclick="location.href=&apos;K01.html&apos;+location.search"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="k08_error_title"></h2>
+        <p data-i18n="k08_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+  <nav class="pp-navbar">
+    <button class="pp-nav-item" aria-selected="false" onclick="location.href='K02.html'+location.search">
+      <span class="pp-nav-pill"><span class="pp-icon">home</span></span>
+      <span data-i18n="k02_nav_home"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">flag</span></span>
+      <span data-i18n="k02_nav_missions"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">wallet</span></span>
+      <span data-i18n="k02_nav_wallet"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="true">
+      <span class="pp-nav-pill"><span class="pp-icon" data-fill>settings</span></span>
+      <span data-i18n="k08_title"></span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function render() {
+    var box = document.getElementById("k08Checks");
+    if (!box) return;
+    box.innerHTML = "";
+    var p = window.PP_SEED.permissions;
+    [["p20_check_location", p.location], ["p20_check_notif", p.notifications],
+     ["p20_check_battery", p.batteryOptimisationOff]].forEach(function (pair) {
+      var el = document.createElement("div");
+      el.className = "pp-list-item";
+      el.innerHTML =
+        '<span class="pp-icon" style="color:var(--' +
+          (pair[1] ? "pp-status-safe" : "md-sys-color-error") + ')">' +
+          (pair[1] ? "check_circle" : "cancel") + "</span>" +
+        '<span class="pp-grow">' + window.PP.t(pair[0]) + "</span>" +
+        (pair[1]
+          ? '<span class="pp-chip" data-status="safe">' + window.PP.t("p20_check_ok") + "</span>"
+          : '<md-text-button>' + window.PP.t("common_allow") + "</md-text-button>");
+      box.appendChild(el);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>
