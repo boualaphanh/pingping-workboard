@@ -188,6 +188,32 @@ window.PP_SEED = {
     ]
   },
 
+  /* C6 notification centre. `child` indexes family01.children. */
+  notifications: [
+    { kind: "sos", key: "p08_sos", child: 1, at: "09:41", unread: true, group: "common_today" },
+    { kind: "zone", key: "p08_zone_enter", child: 0, placeKey: "p10_place_school", at: "07:37", unread: true, group: "common_today" },
+    { kind: "battery", key: "p08_battery_low", child: 1, n: 17, at: "07:02", unread: false, group: "common_today" },
+    { kind: "zone", key: "p08_zone_exit", child: 0, placeKey: "p10_place_home", at: "06:58", unread: false, group: "common_today" },
+    { kind: "zone", key: "p08_zone_late", child: 2, placeKey: "p10_place_school", at: "08:10", unread: false, group: "common_yesterday" }
+  ],
+
+  /* A2 safe zones. Free plan allows three (Feature Breakdown A2). */
+  zones: [
+    { nameKey: "p13_type_home", type: "home", icon: "home", radiusM: 150, from: null, to: null, children: 3, notifyEnter: true, notifyExit: true },
+    { nameKey: "p13_type_school", type: "school", icon: "school", radiusM: 250, from: "07:30", to: "16:00", children: 2, notifyEnter: true, notifyExit: true },
+    { nameKey: "p13_type_class", type: "class", icon: "menu_book", radiusM: 120, from: "17:00", to: "19:00", children: 1, notifyEnter: true, notifyExit: false }
+  ],
+
+  /* AD1 pickup today. `who` is a family member, `child` indexes family01.children. */
+  pickup: { who: "coParent", child: 0, time: "16:10", placeKey: "p10_place_school", status: "p32_status_confirmed" },
+
+  /* E5 ping / check-in, as the child's phone shows it. */
+  messages: [
+    { from: "parent", kind: "ping", who: "owner", at: "15:40", unread: true },
+    { from: "parent", kind: "pickup", who: "coParent", at: "15:35", time: "16:10", unread: false },
+    { from: "child", kind: "reply", replyKey: "k07_reply_ok", at: "15:41", unread: false }
+  ],
+
   /* Kids app fixture — child 1 of family 01, as seen from their own phone. */
   kidsSelf: {
     childId: "41ea9442-558a-5455-bb48-5dcbb766a2f6",

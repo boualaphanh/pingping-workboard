@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P32 Pickup Today
+     Features: AD1 — who is collecting, from where, at what time, and whether they confirmed.
+     No screen for this exists in Feature Spec v0.1 §4.1; it is added by the prototype spec,
+     as P31 and P34 were.
+     States: loading · empty (nothing planned) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P32 · Pickup today</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p32_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <p class="pp-label" data-i18n="p32_lede"></p>
+      <section class="pp-card" data-raised>
+        <div class="pp-row">
+          <span class="pp-avatar" data-nm-initial="family01.coParent"></span>
+          <div class="pp-col pp-grow" id="p32Head"></div>
+          <span class="pp-chip" data-status="safe" id="p32Status"></span>
+        </div>
+        <div class="pp-hairline"></div>
+        <div class="pp-row">
+          <span class="pp-icon">schedule</span>
+          <span class="pp-grow pp-num" id="p32When"></span>
+        </div>
+        <div class="pp-quick">
+          <md-filled-button id="p32Tell"></md-filled-button>
+          <md-outlined-button data-i18n="p32_confirm"></md-outlined-button>
+        </div>
+      </section>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:11px;width:70%"></div>
+      <div class="pp-skel" style="height:180px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">directions_car</span>
+        <h2 class="pp-title" data-i18n="p32_empty_title"></h2>
+        <p data-i18n="p32_empty_body"></p>
+        <md-filled-button data-i18n="p32_add" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p32_error_title"></h2>
+        <p data-i18n="p32_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function person(key) {
+    var p = window.PP_SEED.family01[key];
+    return document.body.getAttribute("data-lang") === "lo" ? p.lo : p.latin;
+  }
+  function child(i) {
+    var c = window.PP_SEED.family01.children[i];
+    return document.body.getAttribute("data-lang") === "lo" ? c.lo : c.latin;
+  }
+  function render() {
+    var head = document.getElementById("p32Head");
+    if (!head) return;
+    var p = window.PP_SEED.pickup;
+    head.innerHTML =
+      '<span style="font-weight:600">' +
+        window.PP.t("p32_who", { who: person(p.who), name: child(p.child) }) + "</span>";
+    document.getElementById("p32Status").textContent = window.PP.t(p.status);
+    document.getElementById("p32When").textContent =
+      window.PP.t("p32_at", { time: p.time, place: window.PP.t(p.placeKey) });
+    document.getElementById("p32Tell").textContent =
+      window.PP.t("p32_tell_child", { name: child(p.child) });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

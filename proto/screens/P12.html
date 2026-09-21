@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P12 Safe Zones List
+     Features: A2.1 create, A2.2 presets, A2.3 expected hours, A2.4 enter/exit per zone,
+               A2.6 shared across children. Free plan is capped at 3 zones.
+     States: loading · empty (no zones) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P12 · Safe zones</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p12_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <p class="pp-label" data-i18n="p12_lede"></p>
+      <section class="pp-card">
+        <div class="pp-list" id="p12List"></div>
+      </section>
+      <div class="pp-row" style="justify-content:space-between">
+        <span class="pp-label pp-num" data-i18n="p12_limit"></span>
+        <md-filled-tonal-button data-i18n="p12_add" onclick="location.href=&apos;P13.html&apos;+location.search">
+          <span class="pp-icon" slot="icon">add</span>
+        </md-filled-tonal-button>
+      </div>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:11px;width:62%"></div>
+      <div class="pp-skel" style="height:72px;width:100%"></div>
+      <div class="pp-skel" style="height:72px;width:100%"></div>
+      <div class="pp-skel" style="height:72px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">fence</span>
+        <h2 class="pp-title" data-i18n="p12_empty_title"></h2>
+        <p data-i18n="p12_empty_body"></p>
+        <md-filled-button data-i18n="p12_add" style="margin-top:var(--pp-s2)" onclick="location.href=&apos;P13.html&apos;+location.search"></md-filled-button>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p12_error_title"></h2>
+        <p data-i18n="p12_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function render() {
+    var box = document.getElementById("p12List");
+    if (!box) return;
+    box.innerHTML = "";
+    window.PP_SEED.zones.forEach(function (z) {
+      var a = document.createElement("a");
+      a.className = "pp-list-item";
+      a.href = "P13.html" + location.search;
+      a.style.cssText = "text-decoration:none;color:inherit";
+      var when = z.from
+        ? window.PP.t("p12_schedule", { from: z.from, to: z.to })
+        : window.PP.t("p12_no_schedule");
+      a.innerHTML =
+        '<span class="pp-avatar" data-size="sm"><span class="pp-icon">' + z.icon + "</span></span>" +
+        '<span class="pp-col pp-grow">' +
+          '<span style="font-weight:600">' + window.PP.t(z.nameKey) + "</span>" +
+          '<span class="pp-label pp-num">' +
+            window.PP.t("p12_radius", { n: z.radiusM }) + " · " + when + "</span>" +
+        "</span>" +
+        '<span class="pp-chip pp-num">' + window.PP.t("p12_children", { n: z.children }) + "</span>" +
+        '<span class="pp-icon">chevron_right</span>';
+      box.appendChild(a);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -516,5 +516,208 @@
   "k08_error_title": "Settings did not load",
   "k08_error_body": "Try again.",
   "p27_devices_row": "Devices",
-  "p27_zones_row": "Safe zones"
+  "p27_zones_row": "Safe zones",
+  "common_yesterday": "Yesterday",
+  "common_all": "All",
+  "common_on": "On",
+  "common_off": "Off",
+  "common_delete": "Delete",
+  "p08_title": "Alerts",
+  "p08_filter_sos": "SOS",
+  "p08_filter_zone": "Zones",
+  "p08_filter_battery": "Battery",
+  "p08_mark_read": "Mark all as read",
+  "p08_sos": "{name} pressed SOS",
+  "@p08_sos": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p08_zone_enter": "{name} arrived at {place}",
+  "@p08_zone_enter": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "p08_zone_exit": "{name} left {place}",
+  "@p08_zone_exit": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "p08_zone_late": "{name} is not at {place} yet",
+  "@p08_zone_late": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "p08_battery_low": "{name}'s phone is at {n}%",
+  "@p08_battery_low": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p08_pickup": "Pickup today: {who} collects {name}",
+  "@p08_pickup": {
+    "placeholders": {
+      "who": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p08_empty_title": "Nothing to read",
+  "p08_empty_body": "Arrivals, departures and low batteries appear here. A quiet list is good news.",
+  "p08_error_title": "Alerts did not load",
+  "p08_error_body": "An SOS still reaches you as a push. Only this list failed.",
+  "p12_title": "Safe zones",
+  "p12_lede": "You are told when a child arrives or leaves.",
+  "p12_radius": "{n} m radius",
+  "@p12_radius": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p12_children": "{n} children",
+  "@p12_children": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "p12_schedule": "{from}–{to}",
+  "@p12_schedule": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "p12_no_schedule": "Any time",
+  "p12_add": "Add a zone",
+  "p12_limit": "Free plan: 3 zones",
+  "p12_empty_title": "No zones yet",
+  "p12_empty_body": "Add home and school first. Those two answer most of the day.",
+  "p12_error_title": "Zones did not load",
+  "p12_error_body": "Existing zones keep working. Only this list failed.",
+  "p13_title": "Edit zone",
+  "p13_name_label": "Zone name",
+  "p13_name_hint": "School",
+  "p13_type": "Type",
+  "p13_type_home": "Home",
+  "p13_type_school": "School",
+  "p13_type_class": "Tutoring",
+  "p13_type_family": "Relative",
+  "p13_radius_label": "Radius",
+  "p13_radius_hint": "Smaller than 100 m and GPS drift will report arrivals that did not happen.",
+  "p13_schedule_label": "Expected between",
+  "p13_notify_enter": "Tell me when they arrive",
+  "p13_notify_exit": "Tell me when they leave",
+  "p13_notify_late": "Tell me if they are not there by the start time",
+  "p13_dwell": "An arrival is only reported after 2 minutes inside the zone.",
+  "p13_save": "Save zone",
+  "p13_empty_title": "Pick a point on the map",
+  "p13_empty_body": "Search for the address, or drag the map until the circle sits over the place.",
+  "p13_error_title": "Zone was not saved",
+  "p13_error_body": "Nothing was changed. Try again.",
+  "p32_title": "Pickup today",
+  "p32_lede": "Everyone sees who is collecting, so nobody waits at the gate.",
+  "p32_who": "{who} collects {name}",
+  "@p32_who": {
+    "placeholders": {
+      "who": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p32_at": "At {time}, from {place}",
+  "@p32_at": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "p32_status_planned": "Planned",
+  "p32_status_confirmed": "Confirmed",
+  "p32_status_done": "Collected",
+  "p32_confirm": "I will collect them",
+  "p32_tell_child": "Tell {name}",
+  "@p32_tell_child": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "p32_empty_title": "No pickup planned today",
+  "p32_empty_body": "Plan one when someone other than you is collecting.",
+  "p32_add": "Plan a pickup",
+  "p32_error_title": "Pickup did not load",
+  "p32_error_body": "Try again.",
+  "k07_title": "Messages",
+  "k07_ping_from": "{who} is asking where you are",
+  "@k07_ping_from": {
+    "placeholders": {
+      "who": {
+        "type": "String"
+      }
+    }
+  },
+  "k07_ping_reply": "Reply so they stop worrying",
+  "k07_reply_ok": "I am fine",
+  "k07_reply_home": "On my way home",
+  "k07_reply_late": "I will be late",
+  "k07_sent": "Sent",
+  "k07_pickup": "{who} is collecting you at {time}",
+  "@k07_pickup": {
+    "placeholders": {
+      "who": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "k07_empty_title": "No messages",
+  "k07_empty_body": "When a parent pings you, it shows up here.",
+  "k07_error_title": "Messages did not load",
+  "k07_error_body": "Your SOS still works. Only this list failed."
 }

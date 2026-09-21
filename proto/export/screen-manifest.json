@@ -91,6 +91,34 @@
       "fixturePaths": []
     },
     {
+      "id": "K07",
+      "app": "kids",
+      "title": "K07 · Messages",
+      "features": "E5 ping / check-in — a parent asks \"where are you\", the child answers with one tap. AD1 pickup is shown here too, because the child is the one waiting at the gate.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "k02_nav_home",
+        "k02_nav_messages",
+        "k02_nav_missions",
+        "k02_nav_wallet",
+        "k07_empty_body",
+        "k07_empty_title",
+        "k07_error_body",
+        "k07_error_title",
+        "k07_pickup",
+        "k07_ping_from",
+        "k07_ping_reply",
+        "k07_title"
+      ],
+      "fixturePaths": []
+    },
+    {
       "id": "K08",
       "app": "kids",
       "title": "K08 · Settings",
@@ -272,6 +300,27 @@
       "fixturePaths": []
     },
     {
+      "id": "P08",
+      "app": "parent",
+      "title": "P08 · Alerts",
+      "features": "C6 — one list of everything that happened: SOS, zone enter/exit/late, low battery, pickup. Grouped by day, unread first.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p08_empty_body",
+        "p08_empty_title",
+        "p08_error_body",
+        "p08_error_title",
+        "p08_title"
+      ],
+      "fixturePaths": []
+    },
+    {
       "id": "P09",
       "app": "parent",
       "title": "P09 · SOS Alert Detail",
@@ -372,6 +421,67 @@
         "p11_stay",
         "p11_stops",
         "p11_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P12",
+      "app": "parent",
+      "title": "P12 · Safe zones",
+      "features": "A2.1 create, A2.2 presets, A2.3 expected hours, A2.4 enter/exit per zone, A2.6 shared across children. Free plan is capped at 3 zones.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p12_add",
+        "p12_children",
+        "p12_empty_body",
+        "p12_empty_title",
+        "p12_error_body",
+        "p12_error_title",
+        "p12_lede",
+        "p12_limit",
+        "p12_no_schedule",
+        "p12_radius",
+        "p12_schedule",
+        "p12_title"
+      ],
+      "fixturePaths": []
+    },
+    {
+      "id": "P13",
+      "app": "parent",
+      "title": "P13 · Edit zone",
+      "features": "A2.1 point and radius, A2.2 preset types, A2.3 expected hours, A2.4 enter/exit toggles per zone, A2.5 the \"not there yet\" alert.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p12_radius",
+        "p13_dwell",
+        "p13_empty_body",
+        "p13_empty_title",
+        "p13_error_body",
+        "p13_error_title",
+        "p13_name_hint",
+        "p13_name_label",
+        "p13_notify_enter",
+        "p13_notify_exit",
+        "p13_notify_late",
+        "p13_radius_hint",
+        "p13_radius_label",
+        "p13_save",
+        "p13_schedule_label",
+        "p13_title",
+        "p13_type"
       ],
       "fixturePaths": []
     },
@@ -491,6 +601,35 @@
       "fixturePaths": [
         "emergencyCard.bloodType",
         "family01.children.0"
+      ]
+    },
+    {
+      "id": "P32",
+      "app": "parent",
+      "title": "P32 · Pickup today",
+      "features": "AD1 — who is collecting, from where, at what time, and whether they confirmed.",
+      "states": [
+        "ok",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "strings": [
+        "common_retry",
+        "p32_add",
+        "p32_at",
+        "p32_confirm",
+        "p32_empty_body",
+        "p32_empty_title",
+        "p32_error_body",
+        "p32_error_title",
+        "p32_lede",
+        "p32_tell_child",
+        "p32_title",
+        "p32_who"
+      ],
+      "fixturePaths": [
+        "family01.coParent"
       ]
     },
     {

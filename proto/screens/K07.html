@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     K07 Messages from Parent
+     Features: E5 ping / check-in — a parent asks "where are you", the child answers with one
+               tap. AD1 pickup is shown here too, because the child is the one waiting at the gate.
+     The quick replies exist so that answering costs one tap: a child who has to type does not
+     answer, and the parent phones instead (painpoint P3).
+     States: loading · empty (no messages) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>K07 · Messages</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .k07-msg { max-width: 86%; border-radius: var(--pp-r-card); padding: var(--pp-s3);
+             display: flex; flex-direction: column; gap: var(--pp-s1); }
+  .k07-msg[data-from="parent"] { align-self: flex-start;
+    background: var(--md-sys-color-surface-container); color: var(--md-sys-color-on-surface); }
+  .k07-msg[data-from="child"] { align-self: flex-end;
+    background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+  .k07-time { font-size: var(--pp-t-label); opacity: .7; }
+  #k07List { display: flex; flex-direction: column; gap: var(--pp-s2); }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="kids" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <span class="pp-brandmark">K</span>
+    <span class="pp-appbar-title" data-i18n="k07_title"></span>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div id="k07List"></div>
+      <div class="pp-chips" id="k07Replies"></div>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:72px;width:86%"></div>
+      <div class="pp-skel" style="height:56px;width:64%"></div>
+      <div class="pp-skel" style="height:40px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">forum</span>
+        <h2 class="pp-title" data-i18n="k07_empty_title"></h2>
+        <p data-i18n="k07_empty_body"></p>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="k07_error_title"></h2>
+        <p data-i18n="k07_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+  <nav class="pp-navbar">
+    <button class="pp-nav-item" aria-selected="false" onclick="location.href='K02.html'+location.search">
+      <span class="pp-nav-pill"><span class="pp-icon">home</span></span>
+      <span data-i18n="k02_nav_home"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">flag</span></span>
+      <span data-i18n="k02_nav_missions"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="false">
+      <span class="pp-nav-pill"><span class="pp-icon">wallet</span></span>
+      <span data-i18n="k02_nav_wallet"></span>
+    </button>
+    <button class="pp-nav-item" aria-selected="true">
+      <span class="pp-nav-pill"><span class="pp-icon" data-fill>chat</span></span>
+      <span data-i18n="k02_nav_messages"></span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function person(key) {
+    var p = window.PP_SEED.family01[key];
+    return document.body.getAttribute("data-lang") === "lo" ? p.lo : p.latin;
+  }
+  function render() {
+    var box = document.getElementById("k07List");
+    var replies = document.getElementById("k07Replies");
+    if (!box || !replies) return;
+
+    box.innerHTML = "";
+    window.PP_SEED.messages.forEach(function (m) {
+      var el = document.createElement("div");
+      el.className = "k07-msg";
+      el.setAttribute("data-from", m.from);
+      var text =
+        m.kind === "ping" ? window.PP.t("k07_ping_from", { who: person(m.who) })
+        : m.kind === "pickup" ? window.PP.t("k07_pickup", { who: person(m.who), time: m.time })
+        : window.PP.t(m.replyKey);
+      el.innerHTML =
+        "<span>" + text + "</span>" +
+        (m.kind === "ping" ? '<span class="k07-time">' + window.PP.t("k07_ping_reply") + "</span>" : "") +
+        '<span class="k07-time pp-num">' + m.at + "</span>";
+      box.appendChild(el);
+    });
+
+    replies.innerHTML = "";
+    ["k07_reply_ok", "k07_reply_home", "k07_reply_late"].forEach(function (key) {
+      var chip = document.createElement("md-assist-chip");
+      chip.label = window.PP.t(key);
+      replies.appendChild(chip);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

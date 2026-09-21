@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P08 Notification Center
+     Features: C6 — one list of everything that happened: SOS, zone enter/exit/late,
+               low battery, pickup. Grouped by day, unread first.
+     With PR-7 there is no Alerts tab; this screen is reached from the bell on the map.
+     States: loading · empty (a quiet list is good news) · error · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P08 · Alerts</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p08-dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto;
+             background: var(--md-sys-color-primary); }
+  .p08-group { font-size: var(--pp-t-label); color: var(--md-sys-color-on-surface-variant);
+               padding: var(--pp-s3) 0 var(--pp-s1); }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p08_title"></span>
+    <button class="pp-touch" aria-label="Mark all as read"><span class="pp-icon">done_all</span></button>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-chips">
+        <md-filter-chip selected id="p08ChipAll"></md-filter-chip>
+        <md-filter-chip id="p08ChipSos"></md-filter-chip>
+        <md-filter-chip id="p08ChipZone"></md-filter-chip>
+        <md-filter-chip id="p08ChipBattery"></md-filter-chip>
+      </div>
+      <div id="p08List"></div>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:32px;width:70%"></div>
+      <div class="pp-skel" style="height:64px;width:100%"></div>
+      <div class="pp-skel" style="height:64px;width:100%"></div>
+      <div class="pp-skel" style="height:64px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure">
+        <span class="pp-icon">notifications_paused</span>
+        <h2 class="pp-title" data-i18n="p08_empty_title"></h2>
+        <p data-i18n="p08_empty_body"></p>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p08_error_title"></h2>
+        <p data-i18n="p08_error_body"></p>
+        <md-outlined-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-outlined-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  var ICON = { sos: "sos", zone: "fence", battery: "battery_alert", pickup: "directions_car" };
+
+  function nameOf(i) {
+    var c = window.PP_SEED.family01.children[i];
+    return document.body.getAttribute("data-lang") === "lo" ? c.lo : c.latin;
+  }
+
+  function render() {
+    var box = document.getElementById("p08List");
+    if (!box) return;
+    box.innerHTML = "";
+    ["p08ChipAll", "p08ChipSos", "p08ChipZone", "p08ChipBattery"].forEach(function (id, i) {
+      var el = document.getElementById(id);
+      if (el) el.label = window.PP.t(["common_all", "p08_filter_sos", "p08_filter_zone", "p08_filter_battery"][i]);
+    });
+
+    var group = null;
+    window.PP_SEED.notifications.forEach(function (n) {
+      if (n.group !== group) {
+        group = n.group;
+        var h = document.createElement("div");
+        h.className = "p08-group";
+        h.textContent = window.PP.t(group);
+        box.appendChild(h);
+      }
+      var card = document.createElement("a");
+      card.className = "pp-card";
+      card.href = (n.kind === "sos" ? "P09.html" : n.kind === "pickup" ? "P32.html" : "P10.html") + location.search;
+      card.style.cssText = "text-decoration:none;color:inherit;padding:var(--pp-s3);margin-bottom:var(--pp-s2)";
+      if (n.kind === "sos") card.setAttribute("data-tone", "error");
+      var args = { name: nameOf(n.child) };
+      if (n.placeKey) args.place = window.PP.t(n.placeKey);
+      if (n.n !== undefined) args.n = n.n;
+      card.innerHTML =
+        '<div class="pp-row">' +
+          '<span class="pp-icon">' + (ICON[n.kind] || "notifications") + "</span>" +
+          '<span class="pp-col pp-grow">' +
+            '<span style="font-weight:600">' + window.PP.t(n.key, args) + "</span>" +
+            '<span class="pp-label pp-num" style="color:inherit;opacity:.7">' + n.at + "</span>" +
+          "</span>" +
+          (n.unread ? '<span class="p08-dot"></span>' : "") +
+        "</div>";
+      box.appendChild(card);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

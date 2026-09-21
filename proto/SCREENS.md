@@ -50,6 +50,33 @@ All 18 are built and pass the mechanical gate. None has been reviewed on a real 
 is what `~` means: the human checks — does the flow make sense, does Lao overflow, does it read
 right at 200 % text scaling — have not been done.
 
+## Batch S2 — 5 screens, all built
+
+Derived from MVP-S2 in Decision Log §4: A2 Safe Zone · C6 Notification Center · E5 Ping / Check-in
+· AD1 Pickup Today.
+
+| ID | Screen | Features | States | Status |
+|---|---|---|---|---|
+| P08 | Alerts | C6 | ok · loading · empty · error | ~ |
+| P12 | Safe zones list | A2.1, A2.2, A2.3, A2.6 | ok · loading · empty · error | ~ |
+| P13 | Safe zone editor | A2.1, A2.3, A2.4, A2.5 | ok · loading · empty · error | ~ |
+| P32 | Pickup today | AD1 | ok · loading · empty · error | ~ |
+| K07 | Messages / ping | E5, AD1 | ok · loading · empty · error | ~ |
+
+`P32` is new, like `P31` and `P34`: AD1 is in MVP-S2 but Feature Spec §4.1 lists no screen for it.
+
+Reached from: the map's bell opens `P08`; the map's zone button opens `P12`, which opens `P13`;
+a pickup row in `P08` opens `P32`; the Kids messages tab opens `K07`.
+
+## Still to build — batch S3
+
+`P03` Onboarding Survey (E2) · `P21` Growth Overview · `P22` Missions & Rewards (D4) ·
+`P29` Settings and Privacy (E7) · `P33` Trust Dashboard (AD5) · `K04` Missions · `K06` Achievements ·
+`W01`–`W04` wearable (B2, blocked on decision D-1, the watch OEM).
+
+**The Growth tab has no screen yet.** PR-7 made it one of three destinations, and `P21` is in S3,
+so a phone walkthrough today hits a dead tab.
+
 ## Documented state exceptions (design spec §6)
 
 | Screen | States it does not have | Why |

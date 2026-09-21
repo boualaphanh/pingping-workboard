@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!-- THROWAWAY PROTOTYPE — NO NETWORK CALLS — DO NOT COPY INTO pingping-mobile.
+     P13 Safe Zone Editor
+     Features: A2.1 point and radius, A2.2 preset types, A2.3 expected hours,
+               A2.4 enter/exit toggles per zone, A2.5 the "not there yet" alert.
+     The 2-minute dwell rule (A2 edge case: GPS drifts at the boundary) is stated on
+     screen, because a parent who does not know it reads a delay as a bug.
+     States: loading · empty (no point picked yet) · error (save failed) · ok -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P13 · Edit zone</title>
+<link rel="stylesheet" href="../shell/base.css">
+<link rel="stylesheet" href="../tokens/parent.css">
+<link rel="stylesheet" href="../tokens/kids.css">
+<link rel="stylesheet" href="../shell/components.css">
+<style>
+  .p13-map { height: 220px; }
+  .p13-circle { position: absolute; left: 50%; top: 50%; width: 150px; height: 150px;
+                border-radius: 50%; transform: translate(-50%, -50%);
+                background: var(--pp-map-zone); opacity: .55;
+                border: 2px solid var(--md-sys-color-primary); }
+  md-outlined-text-field { width: 100%; }
+  md-slider { width: 100%; }
+</style>
+<script type="module" src="../vendor/material-web/all.js"></script>
+<script src="../i18n/en.js"></script>
+<script src="../i18n/lo.js"></script>
+<script src="../fixtures/seed.js"></script>
+</head>
+<body data-app="parent" data-theme="light" data-lang="en" data-state="ok">
+
+<div class="pp-screen">
+  <header class="pp-appbar">
+    <button class="pp-touch" aria-label="Back" onclick="history.back()"><span class="pp-icon">arrow_back</span></button>
+    <span class="pp-appbar-title" data-i18n="p13_title"></span>
+    <button class="pp-touch" aria-label="Delete"><span class="pp-icon">delete</span></button>
+  </header>
+  <main class="pp-content">
+
+    <div data-state-view="ok" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-map p13-map">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g stroke="var(--md-sys-color-outline)" stroke-width="8" opacity=".30" fill="none">
+            <path d="M-10 150 H 320" /><path d="M110 -10 V 240" />
+          </g>
+          <g stroke="var(--md-sys-color-outline)" stroke-width="3" opacity=".22" fill="none">
+            <path d="M-10 60 H 320" /><path d="M230 -10 V 240" />
+          </g>
+        </svg>
+        <span class="p13-circle"></span>
+        <span class="pp-pin" style="left:50%;top:50%"></span>
+      </div>
+      <md-outlined-text-field value="School" data-i18n-attr="label:p13_name_label,placeholder:p13_name_hint"></md-outlined-text-field>
+      <span class="pp-label" data-i18n="p13_type"></span>
+      <div class="pp-chips">
+        <md-filter-chip id="p13T0"></md-filter-chip>
+        <md-filter-chip selected id="p13T1"></md-filter-chip>
+        <md-filter-chip id="p13T2"></md-filter-chip>
+        <md-filter-chip id="p13T3"></md-filter-chip>
+      </div>
+      <section class="pp-card">
+        <div class="pp-row">
+          <span class="pp-grow" data-i18n="p13_radius_label"></span>
+          <span class="pp-chip pp-num" data-i18n="p12_radius" data-i18n-args="n:250"></span>
+        </div>
+        <md-slider min="100" max="1000" step="50" value="250" labeled></md-slider>
+        <span class="pp-label" data-i18n="p13_radius_hint"></span>
+      </section>
+      <section class="pp-card">
+        <div class="pp-row">
+          <span class="pp-grow" data-i18n="p13_schedule_label"></span>
+          <span class="pp-chip pp-num">07:30–16:00</span>
+        </div>
+        <div class="pp-list">
+        <div class="pp-list-item">
+          <span class="pp-col pp-grow">
+            <span data-i18n="p13_notify_enter"></span>
+          </span>
+          <md-switch selected></md-switch>
+        </div>
+        <div class="pp-list-item">
+          <span class="pp-col pp-grow">
+            <span data-i18n="p13_notify_exit"></span>
+          </span>
+          <md-switch selected></md-switch>
+        </div>
+        <div class="pp-list-item">
+          <span class="pp-col pp-grow">
+            <span data-i18n="p13_notify_late"></span>
+          </span>
+          <md-switch></md-switch>
+        </div>
+        </div>
+        <span class="pp-label" data-i18n="p13_dwell"></span>
+      </section>
+      <md-filled-button data-i18n="p13_save"></md-filled-button>
+    </div>
+
+    <div data-state-view="loading" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-skel" style="height:220px"></div>
+      <div class="pp-skel" style="height:56px;width:100%"></div>
+      <div class="pp-skel" style="height:28px;width:60%"></div>
+      <div class="pp-skel" style="height:120px;width:100%"></div>
+      <div class="pp-skel" style="height:40px;width:100%"></div>
+    </div>
+
+    <div data-state-view="empty" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-map p13-map">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g stroke="var(--md-sys-color-outline)" stroke-width="8" opacity=".30" fill="none">
+            <path d="M-10 150 H 320" /><path d="M110 -10 V 240" />
+          </g>
+          <g stroke="var(--md-sys-color-outline)" stroke-width="3" opacity=".22" fill="none">
+            <path d="M-10 60 H 320" /><path d="M230 -10 V 240" />
+          </g>
+        </svg>
+      </div>
+      <div class="pp-figure">
+        <span class="pp-icon">add_location_alt</span>
+        <h2 class="pp-title" data-i18n="p13_empty_title"></h2>
+        <p data-i18n="p13_empty_body"></p>
+      </div>
+    </div>
+
+    <div data-state-view="error" class="pp-flex" style="flex-direction:column;gap:var(--pp-s3)">
+      <div class="pp-figure" data-tone="error">
+        <span class="pp-icon">cloud_off</span>
+        <h2 class="pp-title" data-i18n="p13_error_title"></h2>
+        <p data-i18n="p13_error_body"></p>
+        <md-filled-button data-i18n="common_retry" style="margin-top:var(--pp-s2)"></md-filled-button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../shell/screen.js"></script>
+<script>
+(function () {
+  "use strict";
+  function render() {
+    ["p13T0", "p13T1", "p13T2", "p13T3"].forEach(function (id, i) {
+      var el = document.getElementById(id);
+      if (el) el.label = window.PP.t(["p13_type_home", "p13_type_school", "p13_type_class", "p13_type_family"][i]);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    window.addEventListener("message", function (ev) {
+      if (ev.data && ev.data.type === "pp-set") setTimeout(render, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>
